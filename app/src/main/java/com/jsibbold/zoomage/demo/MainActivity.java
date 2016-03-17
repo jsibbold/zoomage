@@ -24,7 +24,7 @@ import android.view.MenuItem;
 
 import com.jsibbold.zoomage.ZoomageView;
 
-import io.github.jsibbold.zoomage.demo.R;
+import com.jsibbold.zoomage.demo.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(io.github.jsibbold.zoomage.demo.R.layout.activity_main);
+        setContentView(com.jsibbold.zoomage.demo.R.layout.activity_main);
         demoView = (ZoomageView)findViewById(R.id.demoView);
     }
 

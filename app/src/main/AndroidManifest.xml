@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="io.github.jsibbold.zoomage.demo"
+<manifest package="com.jsibbold.zoomage.demo"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
