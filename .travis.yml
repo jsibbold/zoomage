@@ -1,0 +1,19 @@
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+  directories:
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+language: android
+android:
+  components:
+  - platform-tools
+  - tools
+  - build-tools-23.0.2
+  - android-23
+  - extra-android-m2repository
+  - extra-android-support
+  - doc-23
+branches:
+  only:
+  - master
