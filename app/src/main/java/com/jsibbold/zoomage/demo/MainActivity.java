@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.jsibbold.zoomage.demo;
+package com.jsibbold.zoomage.demo;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -22,7 +22,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import io.github.jsibbold.zoomage.ZoomageView;
+import com.jsibbold.zoomage.ZoomageView;
+
+import io.github.jsibbold.zoomage.demo.R;
 
 public class MainActivity extends AppCompatActivity {
 
