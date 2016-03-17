@@ -17,7 +17,9 @@ buildscript {
     }
 }
 
-
+plugins {
+    id "com.jfrog.bintray" version "1.6"
+}
 
 allprojects {
     repositories {
