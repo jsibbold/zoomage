@@ -1,6 +1,8 @@
 # zoomage
 A simple pinch-to-zoom ImageView library for Android
 
+[![Build Status](https://travis-ci.org/jsibbold/zoomage.svg?branch=master)](https://travis-ci.org/jsibbold/zoomage)
+
 # License
 ```
 Copyright 2016 Jeffrey Sibbold
