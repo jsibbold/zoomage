@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "io.github.jsibbold.zoomage"
+        applicationId "com.jsibbold.zoomage"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1

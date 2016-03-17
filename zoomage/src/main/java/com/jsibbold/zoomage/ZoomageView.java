@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.jsibbold.zoomage;
+package com.jsibbold.zoomage;
 
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
@@ -74,15 +74,15 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
         scaleDetector = new ScaleGestureDetector(context, this);
         startScaleType = getScaleType();
 
-        TypedArray values = context.obtainStyledAttributes(attrs, io.github.jsibbold.zoomage.R.styleable.ZoomageView);
+        TypedArray values = context.obtainStyledAttributes(attrs, com.jsibbold.zoomage.R.styleable.ZoomageView);
 
-        zoomable = values.getBoolean(io.github.jsibbold.zoomage.R.styleable.ZoomageView_zoomable, true);
-        translatable = values.getBoolean(io.github.jsibbold.zoomage.R.styleable.ZoomageView_translatable, true);
-        animateReset = values.getBoolean(io.github.jsibbold.zoomage.R.styleable.ZoomageView_animateReset, true);
-        restrictBounds = values.getBoolean(io.github.jsibbold.zoomage.R.styleable.ZoomageView_restrictBounds, false);
-        minScale = values.getFloat(io.github.jsibbold.zoomage.R.styleable.ZoomageView_minScale, MIN_SCALE);
-        maxScale = values.getFloat(io.github.jsibbold.zoomage.R.styleable.ZoomageView_maxScale, MAX_SCALE);
-        autoReset = AutoReset.Parser.fromInt(values.getInt(io.github.jsibbold.zoomage.R.styleable.ZoomageView_autoReset, AutoReset.UNDER));
+        zoomable = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomable, true);
+        translatable = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_translatable, true);
+        animateReset = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_animateReset, true);
+        restrictBounds = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_restrictBounds, false);
+        minScale = values.getFloat(com.jsibbold.zoomage.R.styleable.ZoomageView_minScale, MIN_SCALE);
+        maxScale = values.getFloat(com.jsibbold.zoomage.R.styleable.ZoomageView_maxScale, MAX_SCALE);
+        autoReset = AutoReset.Parser.fromInt(values.getInt(com.jsibbold.zoomage.R.styleable.ZoomageView_autoReset, AutoReset.UNDER));
 
         checkScales();
 
