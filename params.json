@@ -1,0 +1,6 @@
+{
+  "name": "Zoomage",
+  "tagline": "A simple pinch-to-zoom ImageView library for Android",
+  "body": "# zoomage\r\nA simple pinch-to-zoom ImageView library for Android\r\n\r\n[![Build Status](https://travis-ci.org/jsibbold/zoomage.svg?branch=master)](https://travis-ci.org/jsibbold/zoomage)\r\n\r\n# License\r\n```\r\nCopyright 2016 Jeffrey Sibbold\r\n\r\nLicensed under the Apache License, Version 2.0 (the \"License\");\r\nyou may not use this file except in compliance with the License.\r\nYou may obtain a copy of the License at\r\n\r\n    http://www.apache.org/licenses/LICENSE-2.0\r\n\r\nUnless required by applicable law or agreed to in writing, software\r\ndistributed under the License is distributed on an \"AS IS\" BASIS,\r\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\nSee the License for the specific language governing permissions and\r\nlimitations under the License.\r\n```\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
