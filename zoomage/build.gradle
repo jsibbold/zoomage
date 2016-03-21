@@ -1,5 +1,8 @@
 apply plugin: 'com.android.library'
 
+version '1.0.0'
+group 'com.jsibbold'
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -27,3 +30,30 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
 }
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'zoomage'
+
+    publishedGroupId = group
+
+    artifact = 'zoomage'
+
+    libraryName = 'Zoomage'
+    libraryDescription = 'Simple pinch-to-zoom ImageView for Android.'
+    libraryVersion = version
+    libraryIssueTrackerUrl = 'https://github.com/jsibbold/zoomage/issues'
+    libraryLabels = ['android', 'update']
+
+    licenseName = 'Apache License Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
+    gitUrl = 'https://github.com/jsibbold/zoomage'
+    siteUrl = 'http://jsibbold.github.io/zoomage'
+
+    developerId = 'jsibbold'
+    developerName = 'Jeffrey Sibbold'
+    developerEmail = 'jsibbold@gmail.com'
+}
+
+apply from:'../publish.gradle'
