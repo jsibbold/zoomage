@@ -56,4 +56,4 @@ ext {
     developerEmail = 'jsibbold@gmail.com'
 }
 
-apply from:'../publish.gradle'
+apply from:'https://raw.githubusercontent.com/btkelly/JCenter/master/bintrayv1.gradle'
