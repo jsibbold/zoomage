@@ -24,8 +24,6 @@ import android.view.MenuItem;
 
 import com.jsibbold.zoomage.ZoomageView;
 
-import com.jsibbold.zoomage.demo.R;
-
 public class MainActivity extends AppCompatActivity {
 
     private ZoomageView demoView;
@@ -47,16 +45,16 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.zoomable:
-                demoView.setZoomable(!demoView.zoomable());
+                demoView.setZoomable(!demoView.isZoomable());
                 break;
             case R.id.translatable:
-                demoView.setTranslatable(!demoView.translatable());
+                demoView.setTranslatable(!demoView.isTranslatable());
                 break;
             case R.id.restrictBounds:
                 demoView.setRestrictBounds(!demoView.restrictBounds());
                 break;
-            case R.id.animateReset:
-                demoView.setAnimateReset(!demoView.animateReset());
+            case R.id.animateOnReset:
+                demoView.setAnimateOnReset(!demoView.animateOnReset());
                 break;
             case R.id.reset:
                 demoView.reset();

@@ -31,7 +31,7 @@
         android:layout_height="match_parent"
         android:src="@drawable/zoom_demo"
         zoom:restrictBounds="false"
-        zoom:animateReset="true"
+        zoom:animateOnReset="true"
         zoom:autoReset="UNDER"
         zoom:zoomable="true"
         zoom:translatable="true"
