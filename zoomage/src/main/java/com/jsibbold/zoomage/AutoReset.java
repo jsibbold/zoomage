@@ -20,15 +20,15 @@ import android.support.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-@Retention(RetentionPolicy.SOURCE)
-@IntDef({AutoReset.NONE, AutoReset.UNDER, AutoReset.OVER, AutoReset.OVER_UNDER})
 /**
  * Describes how the {@link ZoomageView} will reset to its original size
- * once interaction with it stops. UNDER will reset when the image is smaller
- * than its starting size, OVER when it's over, OVER_UNDER in both situations,
- * and NONE causes no reset. Note that when using NONE, the image will still animate
+ * once interaction with it stops. {@link #UNDER} will reset when the image is smaller
+ * than its starting size, {@link #OVER} when it's over, {@link #OVER_UNDER} in both situations,
+ * and {@link #NONE} causes no reset. Note that when using {@link #NONE}, the image will still animate
  * to within the screen bounds in certain situations.
  */
+@Retention(RetentionPolicy.SOURCE)
+@IntDef({AutoReset.NONE, AutoReset.UNDER, AutoReset.OVER, AutoReset.OVER_UNDER})
 public @interface AutoReset {
 
     int UNDER = 0;

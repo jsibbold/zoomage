@@ -28,6 +28,12 @@ import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.OnScaleGestureListener;
 import android.widget.ImageView;
 
+/**
+ * ZoomageView is a pinch-to-zoom extension of {@link ImageView}, providing a smooth
+ * user experience and a very natural feel when zooming and translating. It also supports
+ * automatic resetting, and allows for exterior bounds restriction to keep the image within
+ * visible window.
+ */
 public class ZoomageView extends ImageView implements OnScaleGestureListener {
 
     private final float MIN_SCALE = 0.6f;
@@ -51,7 +57,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     private boolean translatable;
     private boolean zoomable;
     private boolean restrictBounds;
-    private boolean animateReset;
+    private boolean animateOnReset;
     @AutoReset private int autoReset;
 
     private PointF last = new PointF(0, 0);
@@ -78,18 +84,18 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
 
         zoomable = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomable, true);
         translatable = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_translatable, true);
-        animateReset = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_animateReset, true);
+        animateOnReset = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_animateOnReset, true);
         restrictBounds = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_restrictBounds, false);
         minScale = values.getFloat(com.jsibbold.zoomage.R.styleable.ZoomageView_minScale, MIN_SCALE);
         maxScale = values.getFloat(com.jsibbold.zoomage.R.styleable.ZoomageView_maxScale, MAX_SCALE);
         autoReset = AutoReset.Parser.fromInt(values.getInt(com.jsibbold.zoomage.R.styleable.ZoomageView_autoReset, AutoReset.UNDER));
 
-        checkScales();
+        verifyScaleRange();
 
         values.recycle();
     }
 
-    private void checkScales() {
+    private void verifyScaleRange() {
         if (minScale >= maxScale) {
             throw new IllegalStateException("minScale must be less than maxScale");
         }
@@ -114,45 +120,95 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
         this.minScale = minScale;
         this.maxScale = maxScale;
 
-        checkScales();
+        verifyScaleRange();
     }
 
-    public boolean translatable() {
+    /**
+     * Returns whether the image is translatable.
+     * @return true if translation of image is allowed, false otherwise
+     */
+    public boolean isTranslatable() {
         return translatable;
     }
 
+    /**
+     * Set the image's translatable state.
+     * @param translatable true to enable translation, false to disable it
+     */
     public void setTranslatable(boolean translatable) {
         this.translatable = translatable;
     }
 
-    public boolean zoomable() {
+    /**
+     * Returns the zoomable state of the image.
+     * @return true if pinch-zooming of the image is allowed, false otherwise.
+     */
+    public boolean isZoomable() {
         return zoomable;
     }
 
+    /**
+     * Set the zoomable state of the image.
+     * @param zoomable true to enable pinch-zooming of the image, false to disable it
+     */
     public void setZoomable(final boolean zoomable) {
         this.zoomable = zoomable;
     }
 
+    /**
+     * If restricted bounds are enabled, the image will not be allowed to translate
+     * farther inward than the edges of the view's bounds, unless the corresponding
+     * dimension (width or height) is smaller than those of the view's frame.
+     * @return true if image bounds are restricted to the view's edges, false otherwise
+     */
     public boolean restrictBounds() {
         return restrictBounds;
     }
 
+    /**
+     * Set the restrictBounds status of the image.
+     * If restricted bounds are enabled, the image will not be allowed to translate
+     * farther inward than the edges of the view's bounds, unless the corresponding
+     * dimension (width or height) is smaller than those of the view's frame.
+     * @param restrictBounds true if image bounds should be restricted to the view's edges, false otherwise
+     */
     public void setRestrictBounds(final boolean restrictBounds) {
         this.restrictBounds = restrictBounds;
     }
 
-    public boolean animateReset() {
-        return animateReset;
+    /**
+     * Returns status of animateOnReset. This causes the image to smoothly animate back
+     * to its start position when reset. Default value is true.
+     * @return true if animateOnReset is enabled, false otherwise
+     */
+    public boolean animateOnReset() {
+        return animateOnReset;
     }
 
-    public void setAnimateReset(final boolean animateReset) {
-        this.animateReset = animateReset;
+    /**
+     * Set the animateOnReset state. Note that currently this only applies to explicit calls to the
+     * {@link #reset()} method.
+     * @param animateOnReset true if image should animate when resetting, false to snap
+     */
+    public void setAnimateOnReset(final boolean animateOnReset) {
+        this.animateOnReset = animateOnReset;
     }
 
+    /**
+     * Get the current {@link AutoReset} mode of the image.
+     * @return the current {@link AutoReset} mode, one of {@link AutoReset#OVER OVER}, {@link AutoReset#UNDER UNDER},
+     * {@link AutoReset#OVER_UNDER OVER_UNDER}, or {@link AutoReset#NONE NONE}
+     */
+    @AutoReset
     public int getAutoReset() {
         return autoReset;
     }
 
+    /**
+     * Set the {@link AutoReset} mode for the image.
+     * @param autoReset the desired mode, one of {@link AutoReset#OVER OVER}, {@link AutoReset#UNDER UNDER},
+     * {@link AutoReset#OVER_UNDER OVER_UNDER}, or {@link AutoReset#NONE NONE}
+     */
     public void setAutoReset(@AutoReset final int autoReset) {
         this.autoReset = autoReset;
     }
@@ -250,7 +306,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
 
             if (event.getActionMasked() == MotionEvent.ACTION_UP) {
                 scaleBy = 1f;
-                performReset();
+                resetImage();
             }
 
             //this tracks whether they have changed the number of fingers down
@@ -265,39 +321,45 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     /**
      * Reset the image based on the specified {@link AutoReset} mode.
      */
-    private void performReset() {
+    private void resetImage() {
         switch (autoReset) {
             case AutoReset.UNDER:
                 if (mValues[Matrix.MSCALE_X] <= startValues[Matrix.MSCALE_X]) {
                     animateToStartMatrix();
                 } else if (mValues[Matrix.MSCALE_X] > startValues[Matrix.MSCALE_X]) {
-                    animateTranslationX();
-                    animateTranslationY();
+                    adjustTranslation();
                 }
                 break;
             case AutoReset.OVER:
                 if (mValues[Matrix.MSCALE_X] >= startValues[Matrix.MSCALE_X]) {
                     animateToStartMatrix();
                 } else if (mValues[Matrix.MSCALE_X] < startValues[Matrix.MSCALE_X]) {
-                    animateTranslationX();
-                    animateTranslationY();
+                    adjustTranslation();
                 }
                 break;
             case AutoReset.OVER_UNDER:
                 animateToStartMatrix();
                 break;
             default:
-                animateTranslationX();
-                animateTranslationY();
+                adjustTranslation();
         }
     }
 
     /**
-     * Reset image back to its original size. Animates based
-     * on the current setting.
+     * This helps to keep the image on-screen by animating the translation to the nearest
+     * edge in both directions.
+     */
+    private void adjustTranslation() {
+        animateTranslationX();
+        animateTranslationY();
+    }
+
+    /**
+     * Reset image back to its original size. Will snap back to original size
+     * if animation on reset is disabled via {@link #setAnimateOnReset(boolean)}.
      */
     public void reset() {
-        reset(animateReset);
+        reset(animateOnReset);
     }
 
     /**

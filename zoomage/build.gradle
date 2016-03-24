@@ -56,4 +56,5 @@ ext {
     developerEmail = 'jsibbold@gmail.com'
 }
 
-apply from:'../publish.gradle'
+apply from:'../bintray_publish.gradle'
+apply from:'../maven_install.gradle'
