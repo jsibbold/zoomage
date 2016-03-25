@@ -1,1 +1,1 @@
-include ':app', ':zoomage'
+include ':example', ':zoomage'
