@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jsibbold.zoomage.demo;
+package com.jsibbold.zoomage.example;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.jsibbold.zoomage.demo.R.layout.activity_main);
+        setContentView(com.jsibbold.zoomage.example.R.layout.activity_main);
         demoView = (ZoomageView)findViewById(R.id.demoView);
     }
 

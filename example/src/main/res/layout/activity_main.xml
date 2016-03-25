@@ -23,7 +23,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="2dp"
-    tools:context="com.jsibbold.zoomage.demo.MainActivity">
+    tools:context="com.jsibbold.zoomage.example.MainActivity">
 
     <com.jsibbold.zoomage.ZoomageView
         android:id="@+id/demoView"
