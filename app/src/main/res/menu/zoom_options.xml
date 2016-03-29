@@ -30,6 +30,9 @@
     <item android:id="@+id/animateOnReset"
           android:title="Animate On Reset"
           app:showAsAction="never" />
+    <item android:id="@+id/autoCenter"
+          android:title="Auto Center"
+          app:showAsAction="never" />
     <item android:id="@+id/reset"
           android:title="Reset"
           app:showAsAction="never"/>

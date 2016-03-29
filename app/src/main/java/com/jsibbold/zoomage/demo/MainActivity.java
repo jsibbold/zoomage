@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.reset:
                 demoView.reset();
                 break;
+            case R.id.autoCenter:
+                demoView.setAutoCenter(!demoView.getAutoCenter());
+                break;
             case R.id.autoReset:
                 showResetOptions();
                 break;
