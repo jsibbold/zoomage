@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:gravity="right"
+              android:background="#fff"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/zoomable"
+        android:text="Zoomable"
+        android:padding="5dp"
+        app:switchPadding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/translatable"
+        android:text="Translatable"
+        android:padding="5dp"
+        app:switchPadding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"/>
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/restrictBounds"
+        android:text="Restrict Bounds"
+        android:padding="5dp"
+        app:switchPadding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"/>
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/animateOnReset"
+        android:text="Animate On Reset"
+        android:padding="5dp"
+        app:switchPadding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"/>
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/autoCenter"
+        android:text="Auto Center"
+        android:padding="5dp"
+        app:switchPadding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"/>
+
+    <TextView
+        android:id="@+id/reset"
+        android:text="Reset"
+        android:padding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"/>
+
+    <TextView
+        android:id="@+id/autoReset"
+        android:text="Auto Reset Mode"
+        android:padding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"/>
+
+</LinearLayout>

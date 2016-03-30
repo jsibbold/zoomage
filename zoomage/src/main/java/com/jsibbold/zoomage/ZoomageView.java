@@ -163,7 +163,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
      * dimension (width or height) is smaller than those of the view's frame.
      * @return true if image bounds are restricted to the view's edges, false otherwise
      */
-    public boolean restrictBounds() {
+    public boolean getRestrictBounds() {
         return restrictBounds;
     }
 
@@ -183,7 +183,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
      * to its start position when reset. Default value is true.
      * @return true if animateOnReset is enabled, false otherwise
      */
-    public boolean animateOnReset() {
+    public boolean getAnimateOnReset() {
         return animateOnReset;
     }
 
