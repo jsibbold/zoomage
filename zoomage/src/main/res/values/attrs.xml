@@ -23,6 +23,7 @@
         <attr name="translatable" format="boolean" />
         <attr name="restrictBounds" format="boolean" />
         <attr name="animateOnReset" format="boolean" />
+        <attr name="autoCenter" format="boolean" />
         <attr name="minScale" format="float" />
         <attr name="maxScale" format="float" />
         <attr name="autoReset" format="enum">

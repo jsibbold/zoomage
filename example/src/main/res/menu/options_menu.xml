@@ -18,23 +18,8 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/zoomable"
-          android:title="Zoomable"
-          app:showAsAction="never"/>
-    <item android:id="@+id/translatable"
-          android:title="Translatable"
-          app:showAsAction="never" />
-    <item android:id="@+id/restrictBounds"
-          android:title="Restrict Bounds"
-          app:showAsAction="never" />
-    <item android:id="@+id/animateOnReset"
-          android:title="Animate On Reset"
-          app:showAsAction="never" />
-    <item android:id="@+id/reset"
-          android:title="Reset"
-          app:showAsAction="never"/>
-    <item android:id="@+id/autoReset"
-          android:title="Auto Reset Mode"
-          app:showAsAction="never" />
+    <item android:id="@+id/options_menu"
+          app:showAsAction="always|withText"
+          android:title="Options" />
 
 </menu>

@@ -58,6 +58,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     private boolean zoomable;
     private boolean restrictBounds;
     private boolean animateOnReset;
+    private boolean autoCenter;
     @AutoReset private int autoReset;
 
     private PointF last = new PointF(0, 0);
@@ -85,6 +86,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
         zoomable = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomable, true);
         translatable = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_translatable, true);
         animateOnReset = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_animateOnReset, true);
+        autoCenter = values.getBoolean(R.styleable.ZoomageView_autoCenter, true);
         restrictBounds = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_restrictBounds, false);
         minScale = values.getFloat(com.jsibbold.zoomage.R.styleable.ZoomageView_minScale, MIN_SCALE);
         maxScale = values.getFloat(com.jsibbold.zoomage.R.styleable.ZoomageView_maxScale, MAX_SCALE);
@@ -161,7 +163,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
      * dimension (width or height) is smaller than those of the view's frame.
      * @return true if image bounds are restricted to the view's edges, false otherwise
      */
-    public boolean restrictBounds() {
+    public boolean getRestrictBounds() {
         return restrictBounds;
     }
 
@@ -181,13 +183,12 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
      * to its start position when reset. Default value is true.
      * @return true if animateOnReset is enabled, false otherwise
      */
-    public boolean animateOnReset() {
+    public boolean getAnimateOnReset() {
         return animateOnReset;
     }
 
     /**
-     * Set the animateOnReset state. Note that currently this only applies to explicit calls to the
-     * {@link #reset()} method.
+     * Set whether or not the image should animate when resetting.
      * @param animateOnReset true if image should animate when resetting, false to snap
      */
     public void setAnimateOnReset(final boolean animateOnReset) {
@@ -195,9 +196,9 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     }
 
     /**
-     * Get the current {@link AutoReset} mode of the image.
+     * Get the current {@link AutoReset} mode of the image. Default value is {@link AutoReset#UNDER}.
      * @return the current {@link AutoReset} mode, one of {@link AutoReset#OVER OVER}, {@link AutoReset#UNDER UNDER},
-     * {@link AutoReset#OVER_UNDER OVER_UNDER}, or {@link AutoReset#NONE NONE}
+     * {@link AutoReset#ALWAYS ALWAYS}, or {@link AutoReset#NEVER NEVER}
      */
     @AutoReset
     public int getAutoReset() {
@@ -207,10 +208,28 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     /**
      * Set the {@link AutoReset} mode for the image.
      * @param autoReset the desired mode, one of {@link AutoReset#OVER OVER}, {@link AutoReset#UNDER UNDER},
-     * {@link AutoReset#OVER_UNDER OVER_UNDER}, or {@link AutoReset#NONE NONE}
+     * {@link AutoReset#ALWAYS ALWAYS}, or {@link AutoReset#NEVER NEVER}
      */
     public void setAutoReset(@AutoReset final int autoReset) {
         this.autoReset = autoReset;
+    }
+
+    /**
+     * Whether or not the image should automatically center itself when it's dragged partially or
+     * fully out of view.
+     * @return true if image should center itself automatically, false if it should not
+     */
+    public boolean getAutoCenter() {
+        return autoCenter;
+    }
+
+    /**
+     * Set whether or not the image should automatically center itself when it's dragged
+     * partially or fully out of view.
+     * @param autoCenter true if image should center itself automatically, false if it should not
+     */
+    public void setAutoCenter(final boolean autoCenter) {
+        this.autoCenter = autoCenter;
     }
 
     @Override
@@ -325,33 +344,35 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
         switch (autoReset) {
             case AutoReset.UNDER:
                 if (mValues[Matrix.MSCALE_X] <= startValues[Matrix.MSCALE_X]) {
-                    animateToStartMatrix();
+                    reset();
                 } else if (mValues[Matrix.MSCALE_X] > startValues[Matrix.MSCALE_X]) {
-                    adjustTranslation();
+                    center();
                 }
                 break;
             case AutoReset.OVER:
                 if (mValues[Matrix.MSCALE_X] >= startValues[Matrix.MSCALE_X]) {
-                    animateToStartMatrix();
+                    reset();
                 } else if (mValues[Matrix.MSCALE_X] < startValues[Matrix.MSCALE_X]) {
-                    adjustTranslation();
+                    center();
                 }
                 break;
-            case AutoReset.OVER_UNDER:
-                animateToStartMatrix();
+            case AutoReset.ALWAYS:
+                reset();
                 break;
             default:
-                adjustTranslation();
+                center();
         }
     }
 
     /**
      * This helps to keep the image on-screen by animating the translation to the nearest
-     * edge in both directions.
+     * edge, both vertically and horizontally.
      */
-    private void adjustTranslation() {
-        animateTranslationX();
-        animateTranslationY();
+    private void center() {
+        if (autoCenter) {
+            animateTranslationX();
+            animateTranslationY();
+        }
     }
 
     /**

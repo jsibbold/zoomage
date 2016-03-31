@@ -1,7 +1,42 @@
 # zoomage
-A simple pinch-to-zoom ImageView library for Android
+A simple pinch-to-zoom ImageView library for Android with an emphasis
+on a smooth and natural feel.
 
 [![Build Status](https://travis-ci.org/jsibbold/zoomage.svg?branch=master)](https://travis-ci.org/jsibbold/zoomage)
+
+## Gradle
+```groovy
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'com.jsibbold:zoomage:1.0.0'
+}
+```
+
+# Using It
+
+```xml
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:zoom="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    
+        <com.jsibbold.zoomage.ZoomageView
+            android:id="@+id/myZoomageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/my_zoomable_image"
+            zoom:restrictBounds="false"
+            zoom:animateOnReset="true"
+            zoom:autoReset="UNDER"
+            zoom:zoomable="true"
+            zoom:translatable="true"
+            />
+    </RelativeLayout>
+```
 
 # License
 ```
