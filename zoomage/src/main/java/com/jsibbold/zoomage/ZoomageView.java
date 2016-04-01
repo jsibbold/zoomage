@@ -113,8 +113,8 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     }
 
     /**
-     * Set the minimum and maximum allowed scale for zooming. {@param minScale} cannot
-     * be greater than {@param maxScale} and neither can be 0 or less. This will result
+     * Set the minimum and maximum allowed scale for zooming. {@code minScale} cannot
+     * be greater than {@code maxScale} and neither can be 0 or less. This will result
      * in an {@link IllegalStateException}.
      * @param minScale minimum allowed scale
      * @param maxScale maximum allowed scale
@@ -394,7 +394,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     }
 
     /**
-     * Reset image back to its starting size. If {@param animate} is false, image
+     * Reset image back to its starting size. If {@code animate} is false, image
      * will snap back to its original size.
      * @param animate animate the image back to its starting size
      */

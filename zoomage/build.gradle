@@ -37,10 +37,10 @@ ext {
 
     publishedGroupId = group
 
-    artifact = 'zoomage'
+    artifact = name
 
     libraryName = 'Zoomage'
-    libraryDescription = 'Simple pinch-to-zoom ImageView for Android.'
+    libraryDescription = 'A simple pinch-to-zoom ImageView for Android with a smooth and natural feel.'
     libraryVersion = version
     libraryIssueTrackerUrl = 'https://github.com/jsibbold/zoomage/issues'
     libraryLabels = ['android', 'update']

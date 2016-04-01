@@ -66,6 +66,12 @@ Sets whether translation is allowed. Default value is true.
 
 
 ## Example Usage
+
+Simply add a ZoomageView as you would any typical ImageView in Android. The scaleType that you set on your
+ZoomageView will determine the starting size and position of your ZoomageView's image. This is the inherited
+ImageView.ScaleType from Android. With a ZoomageView, the fitCenter or centerInside scale types usually make
+the most sense to use, fitCenter being Android's default scale type.
+
 ```xml
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
