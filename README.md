@@ -1,6 +1,6 @@
 # zoomage
 A simple pinch-to-zoom ImageView library for Android with an emphasis
-on a smooth and natural feel.
+on a smooth and natural feel. Great for personal image gallery experiences.
 
 [![Build Status](https://travis-ci.org/jsibbold/zoomage.svg?branch=master)](https://travis-ci.org/jsibbold/zoomage)
 
@@ -17,10 +17,59 @@ dependencies {
 
 # Using It
 
+## XML Attributes
+
+```xml
+restrictBounds="true|false"
+```
+Restricts the bounds of the image so it does not wander outside the border of the ImageView when it's smaller than the frame size,
+and restricts the bounds to stop at the edges of the ImageView when the image is larger than the frame size. Default value is false.
+
+```xml
+animateOnReset="true|false"
+```
+Image will animate back to its starting size whenever it is reset if true, and will snap back to its starting size when false.
+Default value is true.
+
+```xml
+autoReset="UNDER|OVER|ALWAYS|NEVER"
+```
+Determines at what times the image will reset to its starting size. Note that UNDER, OVER, and ALWAYS all have the effect of
+resetting the image to its starting position even if its size has not changed. Default value is UNDER.
+
+```xml
+autoCenter="true|false"
+```
+This will cause the image to pull itself into view on-screen if it is partially off-screen. Default value is true.
+
+```xml
+minScale="{float greater than 0}"
+```
+The minimum allowed scale for the image. Ideally this should be less than 1, must be greater than 0, and must
+be less than maxScale. Default value is 0.6.
+
+```xml
+maxScale="{float greater than 0}"
+```
+The maximum allowed scale for the image. Ideally this should be greater than 1, must be greater than 0, and must
+be greater than minScale. Default value is 8.
+
+```xml
+zoomable="true|false"
+```
+Sets whether zooming is allowed. Default value is true.
+
+```xml
+translatable="true|false"
+```
+Sets whether translation is allowed. Default value is true.
+
+
+## Example Usage
 ```xml
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:zoom="http://schemas.android.com/apk/res-auto"
+        xmlns:zoomage="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     
@@ -29,11 +78,12 @@ dependencies {
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/my_zoomable_image"
-            zoom:restrictBounds="false"
-            zoom:animateOnReset="true"
-            zoom:autoReset="UNDER"
-            zoom:zoomable="true"
-            zoom:translatable="true"
+            zoomage:restrictBounds="false"
+            zoomage:animateOnReset="true"
+            zoomage:autoReset="UNDER"
+            zoomage:autoCenter="true"
+            zoomage:zoomable="true"
+            zoomage:translatable="true"
             />
     </RelativeLayout>
 ```
