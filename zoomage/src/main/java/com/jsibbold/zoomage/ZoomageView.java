@@ -41,6 +41,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     private final int RESET_DURATION = 200;
 
     private ScaleType startScaleType;
+    private boolean startValuesSet = false;
 
     // These matrices will be used to move and zoom image
     private Matrix matrix = new Matrix();
@@ -236,6 +237,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     public void setScaleType(ScaleType scaleType) {
         super.setScaleType(scaleType);
         startScaleType = scaleType;
+        startValuesSet = false;
     }
 
     /**
@@ -276,16 +278,24 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
             return 0;
     }
 
+    /**
+     * Remember our starting values so we can animate our image back to its original position.
+     */
+    private void setStartValues() {
+        startMatrix = new Matrix(getImageMatrix());
+        startMatrix.getValues(startValues);
+        minScale *= startValues[Matrix.MSCALE_X];
+        maxScale *= startValues[Matrix.MSCALE_X];
+        startValuesSet = true;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        if (isEnabled()) {
-            if (getScaleType() != ScaleType.MATRIX) {
+        if (isEnabled() && (zoomable || translatable)) {
+            if (!startValuesSet) {
                 super.setScaleType(ScaleType.MATRIX);
-                startMatrix = new Matrix(getImageMatrix());
-                startMatrix.getValues(startValues);
-                minScale = MIN_SCALE * startValues[Matrix.MSCALE_X];
-                maxScale = MAX_SCALE * startValues[Matrix.MSCALE_X];
+                setStartValues();
             }
 
             //get the current state of the image matrix, its values, and the bounds of the drawn bitmap
@@ -345,14 +355,14 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
             case AutoReset.UNDER:
                 if (mValues[Matrix.MSCALE_X] <= startValues[Matrix.MSCALE_X]) {
                     reset();
-                } else if (mValues[Matrix.MSCALE_X] > startValues[Matrix.MSCALE_X]) {
+                } else {
                     center();
                 }
                 break;
             case AutoReset.OVER:
                 if (mValues[Matrix.MSCALE_X] >= startValues[Matrix.MSCALE_X]) {
                     reset();
-                } else if (mValues[Matrix.MSCALE_X] < startValues[Matrix.MSCALE_X]) {
+                } else {
                     center();
                 }
                 break;
