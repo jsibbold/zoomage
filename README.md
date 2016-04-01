@@ -84,9 +84,13 @@ Sets whether translation is allowed. Default value is true.
             zoomage:autoCenter="true"
             zoomage:zoomable="true"
             zoomage:translatable="true"
+            zoomage:minScale="0.6"
+            zoomage:maxScale="8"
             />
     </RelativeLayout>
 ```
+
+Special thanks to @mchowning for all his help
 
 # License
 ```
