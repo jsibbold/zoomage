@@ -18,7 +18,7 @@
 -->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:zoom="http://schemas.android.com/apk/res-auto"
+    xmlns:zoomage="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -30,11 +30,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/zoom_demo"
-        zoom:restrictBounds="false"
-        zoom:animateOnReset="true"
-        zoom:autoReset="UNDER"
-        zoom:zoomable="true"
-        zoom:translatable="true"
+        zoomage:restrictBounds="false"
+        zoomage:animateOnReset="true"
+        zoomage:autoReset="UNDER"
+        zoomage:autoCenter="true"
+        zoomage:zoomable="true"
+        zoomage:translatable="true"
+        zoomage:minScale="0.6"
+        zoomage:maxScale="8"
         />
     <include
         android:id="@+id/optionsView"
