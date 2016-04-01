@@ -1,39 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-
+    <meta charset="UTF-8">
     <title>Zoomage by jsibbold</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
+    <section class="page-header">
+      <h1 class="project-name">Zoomage</h1>
+      <h2 class="project-tagline">A simple pinch-to-zoom ImageView library for Android</h2>
+      <a href="https://github.com/jsibbold/zoomage" class="btn">View on GitHub</a>
+      <a href="https://github.com/jsibbold/zoomage/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/jsibbold/zoomage/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <header>
-      <div class="container">
-        <h1>Zoomage</h1>
-        <h2>A simple pinch-to-zoom ImageView library for Android</h2>
-
-        <section id="downloads">
-          <a href="https://github.com/jsibbold/zoomage/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/jsibbold/zoomage/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/jsibbold/zoomage" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
-      </div>
-    </header>
-
-    <div class="container">
-      <section id="main_content">
-        <h1>
+    <section class="main-content">
+      <h1>
 <a id="zoomage" class="anchor" href="#zoomage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>zoomage</h1>
 
-<p>A simple pinch-to-zoom ImageView library for Android</p>
+<p>A simple pinch-to-zoom ImageView library for Android with an emphasis
+on a smooth and natural feel. Great for personal image gallery experiences.</p>
 
 <p><a href="https://travis-ci.org/jsibbold/zoomage"><img src="https://travis-ci.org/jsibbold/zoomage.svg?branch=master" alt="Build Status"></a></p>
+
+<h2>
+<a id="gradle" class="anchor" href="#gradle" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Gradle</h2>
+
+<div class="highlight highlight-source-groovy"><pre>repositories {
+    jcenter()
+}
+
+dependencies {
+    compile <span class="pl-s"><span class="pl-pds">'</span>com.jsibbold:zoomage:1.0.0<span class="pl-pds">'</span></span>
+}</pre></div>
+
+<h1>
+<a id="using-it" class="anchor" href="#using-it" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using It</h1>
+
+<h2>
+<a id="xml-attributes" class="anchor" href="#xml-attributes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>XML Attributes</h2>
+
+<div class="highlight highlight-text-xml"><pre>restrictBounds="true|false"</pre></div>
+
+<p>Restricts the bounds of the image so it does not wander outside the border of the ImageView when it's smaller than the frame size,
+and restricts the bounds to stop at the edges of the ImageView when the image is larger than the frame size. Default value is false.</p>
+
+<div class="highlight highlight-text-xml"><pre>animateOnReset="true|false"</pre></div>
+
+<p>Image will animate back to its starting size whenever it is reset if true, and will snap back to its starting size when false.
+Default value is true.</p>
+
+<div class="highlight highlight-text-xml"><pre>autoReset="UNDER|OVER|ALWAYS|NEVER"</pre></div>
+
+<p>Determines at what times the image will reset to its starting size. Note that UNDER, OVER, and ALWAYS all have the effect of
+resetting the image to its starting position even if its size has not changed. Default value is UNDER.</p>
+
+<div class="highlight highlight-text-xml"><pre>autoCenter="true|false"</pre></div>
+
+<p>This will cause the image to pull itself into view on-screen if it is partially off-screen. Default value is true.</p>
+
+<div class="highlight highlight-text-xml"><pre>minScale="{float greater than 0}"</pre></div>
+
+<p>The minimum allowed scale for the image. Ideally this should be less than 1, must be greater than 0, and must
+be less than maxScale. Default value is 0.6.</p>
+
+<div class="highlight highlight-text-xml"><pre>maxScale="{float greater than 0}"</pre></div>
+
+<p>The maximum allowed scale for the image. Ideally this should be greater than 1, must be greater than 0, and must
+be greater than minScale. Default value is 8.</p>
+
+<div class="highlight highlight-text-xml"><pre>zoomable="true|false"</pre></div>
+
+<p>Sets whether zooming is allowed. Default value is true.</p>
+
+<div class="highlight highlight-text-xml"><pre>translatable="true|false"</pre></div>
+
+<p>Sets whether translation is allowed. Default value is true.</p>
+
+<h2>
+<a id="example-usage" class="anchor" href="#example-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example Usage</h2>
+
+<p>Simply add a ZoomageView as you would any typical ImageView in Android. The scaleType that you set on your
+ZoomageView will determine the starting size and position of your ZoomageView's image. This is the inherited
+ImageView.ScaleType from Android. With a ZoomageView, the fitCenter or centerInside scale types usually make
+the most sense to use, fitCenter being Android's default scale type.</p>
+
+<div class="highlight highlight-text-xml"><pre>    &lt;<span class="pl-ent">RelativeLayout</span>
+        <span class="pl-e">xmlns</span><span class="pl-e">:</span><span class="pl-e">android</span>=<span class="pl-s"><span class="pl-pds">"</span>http://schemas.android.com/apk/res/android<span class="pl-pds">"</span></span>
+        <span class="pl-e">xmlns</span><span class="pl-e">:</span><span class="pl-e">zoomage</span>=<span class="pl-s"><span class="pl-pds">"</span>http://schemas.android.com/apk/res-auto<span class="pl-pds">"</span></span>
+        <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">layout_width</span>=<span class="pl-s"><span class="pl-pds">"</span>match_parent<span class="pl-pds">"</span></span>
+        <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">layout_height</span>=<span class="pl-s"><span class="pl-pds">"</span>match_parent<span class="pl-pds">"</span></span>&gt;
+
+        &lt;<span class="pl-ent">com</span>.jsibbold.zoomage.ZoomageView
+            <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>@+id/myZoomageView<span class="pl-pds">"</span></span>
+            <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">layout_width</span>=<span class="pl-s"><span class="pl-pds">"</span>match_parent<span class="pl-pds">"</span></span>
+            <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">layout_height</span>=<span class="pl-s"><span class="pl-pds">"</span>match_parent<span class="pl-pds">"</span></span>
+            <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>@drawable/my_zoomable_image<span class="pl-pds">"</span></span>
+            <span class="pl-e">zoomage</span><span class="pl-e">:</span><span class="pl-e">restrictBounds</span>=<span class="pl-s"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span>
+            <span class="pl-e">zoomage</span><span class="pl-e">:</span><span class="pl-e">animateOnReset</span>=<span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span>
+            <span class="pl-e">zoomage</span><span class="pl-e">:</span><span class="pl-e">autoReset</span>=<span class="pl-s"><span class="pl-pds">"</span>UNDER<span class="pl-pds">"</span></span>
+            <span class="pl-e">zoomage</span><span class="pl-e">:</span><span class="pl-e">autoCenter</span>=<span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span>
+            <span class="pl-e">zoomage</span><span class="pl-e">:</span><span class="pl-e">zoomable</span>=<span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span>
+            <span class="pl-e">zoomage</span><span class="pl-e">:</span><span class="pl-e">translatable</span>=<span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span>
+            <span class="pl-e">zoomage</span><span class="pl-e">:</span><span class="pl-e">minScale</span>=<span class="pl-s"><span class="pl-pds">"</span>0.6<span class="pl-pds">"</span></span>
+            <span class="pl-e">zoomage</span><span class="pl-e">:</span><span class="pl-e">maxScale</span>=<span class="pl-s"><span class="pl-pds">"</span>8<span class="pl-pds">"</span></span>
+            /&gt;
+    &lt;/<span class="pl-ent">RelativeLayout</span>&gt;</pre></div>
+
+<p>Special thanks to <a href="https://github.com/mchowning" class="user-mention">@mchowning</a> for all his help</p>
 
 <h1>
 <a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h1>
@@ -52,9 +130,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 </code></pre>
-      </section>
-    </div>
 
-    
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/jsibbold/zoomage">Zoomage</a> is maintained by <a href="https://github.com/jsibbold">jsibbold</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
   </body>
 </html>
