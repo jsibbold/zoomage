@@ -22,6 +22,7 @@ import android.content.res.TypedArray;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.support.v4.view.ScaleGestureDetectorCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -80,6 +81,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     public ZoomageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         scaleDetector = new ScaleGestureDetector(context, this);
+        ScaleGestureDetectorCompat.setQuickScaleEnabled(scaleDetector, false);
         startScaleType = getScaleType();
 
         TypedArray values = context.obtainStyledAttributes(attrs, com.jsibbold.zoomage.R.styleable.ZoomageView);
