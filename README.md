@@ -1,8 +1,10 @@
 # zoomage
+[![Build Status](https://travis-ci.org/jsibbold/zoomage.svg?branch=master)](https://travis-ci.org/jsibbold/zoomage) [ ![Download](https://api.bintray.com/packages/jsibbold/maven/zoomage/images/download.svg) ](https://bintray.com/jsibbold/maven/zoomage/_latestVersion)  
+  
 A simple pinch-to-zoom ImageView library for Android with an emphasis
 on a smooth and natural feel. Great for personal image gallery experiences.
 
-[ ![Download](https://api.bintray.com/packages/jsibbold/maven/zoomage/images/download.svg) ](https://bintray.com/jsibbold/maven/zoomage/_latestVersion) [![Build Status](https://travis-ci.org/jsibbold/zoomage.svg?branch=master)](https://travis-ci.org/jsibbold/zoomage)
+
 
 ## Gradle
 ```groovy
@@ -93,7 +95,8 @@ translatable="true|false"
 ```
 Sets whether translation is allowed. Default value is true.
 
-Special thanks to @mchowning for all his help
+---
+**Special thanks to @mchowning for all his help**
 
 # License
 ```
