@@ -1,8 +1,9 @@
 # zoomage
+[![Build Status](https://travis-ci.org/jsibbold/zoomage.svg?branch=master)](https://travis-ci.org/jsibbold/zoomage) [ ![Download](https://api.bintray.com/packages/jsibbold/maven/zoomage/images/download.svg) ](https://bintray.com/jsibbold/maven/zoomage/_latestVersion)
 A simple pinch-to-zoom ImageView library for Android with an emphasis
 on a smooth and natural feel. Great for personal image gallery experiences.
 
-[![Build Status](https://travis-ci.org/jsibbold/zoomage.svg?branch=master)](https://travis-ci.org/jsibbold/zoomage) [ ![Download](https://api.bintray.com/packages/jsibbold/maven/zoomage/images/download.svg) ](https://bintray.com/jsibbold/maven/zoomage/_latestVersion)
+
 
 ## Gradle
 ```groovy
