@@ -2,7 +2,7 @@
 A simple pinch-to-zoom ImageView library for Android with an emphasis
 on a smooth and natural feel. Great for personal image gallery experiences.
 
-[![Build Status](https://travis-ci.org/jsibbold/zoomage.svg?branch=master)](https://travis-ci.org/jsibbold/zoomage)
+[ ![Download](https://api.bintray.com/packages/jsibbold/maven/zoomage/images/download.svg) ](https://bintray.com/jsibbold/maven/zoomage/_latestVersion) [![Build Status](https://travis-ci.org/jsibbold/zoomage.svg?branch=master)](https://travis-ci.org/jsibbold/zoomage)
 
 ## Gradle
 ```groovy
@@ -16,56 +16,6 @@ dependencies {
 ```
 
 # Using It
-
-## XML Attributes
-
-```xml
-restrictBounds="true|false"
-```
-Restricts the bounds of the image so it does not wander outside the border of the ImageView when it's smaller than the frame size,
-and restricts the bounds to stop at the edges of the ImageView when the image is larger than the frame size. Default value is false.
-
-```xml
-animateOnReset="true|false"
-```
-Image will animate back to its starting size whenever it is reset if true, and will snap back to its starting size when false.
-Default value is true.
-
-```xml
-autoReset="UNDER|OVER|ALWAYS|NEVER"
-```
-Determines at what times the image will reset to its starting size. Note that UNDER, OVER, and ALWAYS all have the effect of
-resetting the image to its starting position even if its size has not changed. Default value is UNDER.
-
-```xml
-autoCenter="true|false"
-```
-This will cause the image to pull itself into view on-screen if it is partially off-screen. Default value is true.
-
-```xml
-minScale="{float greater than 0}"
-```
-The minimum allowed scale for the image. Ideally this should be less than 1, must be greater than 0, and must
-be less than maxScale. Default value is 0.6.
-
-```xml
-maxScale="{float greater than 0}"
-```
-The maximum allowed scale for the image. Ideally this should be greater than 1, must be greater than 0, and must
-be greater than minScale. Default value is 8.
-
-```xml
-zoomable="true|false"
-```
-Sets whether zooming is allowed. Default value is true.
-
-```xml
-translatable="true|false"
-```
-Sets whether translation is allowed. Default value is true.
-
-
-## Example Usage
 
 Simply add a ZoomageView as you would any typical ImageView in Android. The scaleType that you set on your
 ZoomageView will determine the starting size and position of your ZoomageView's image. This is the inherited
@@ -95,6 +45,53 @@ the most sense to use, fitCenter being Android's default scale type.
             />
     </RelativeLayout>
 ```
+
+## XML Attributes
+
+```xml
+restrictBounds="true|false"
+```
+Restricts the bounds of the image so it does not wander outside the border of the ImageView when it's smaller than the frame size,
+and restricts the bounds to stop at the edges of the ImageView when the image is larger than the frame size. Default value is false.
+
+```xml
+animateOnReset="true|false"
+```
+Image will animate back to its starting size whenever it is reset if true, and will snap back to its starting size when false.
+Default value is true.
+
+```xml
+autoReset="UNDER|OVER|ALWAYS|NEVER"
+```
+Determines at what times the image will reset to its starting size. Note that UNDER, OVER, and ALWAYS all have the effect of
+resetting the image to its starting position if its size has not changed. Default value is UNDER.
+
+```xml
+autoCenter="true|false"
+```
+This will cause the image to pull itself into view on-screen if it is partially off-screen. Default value is true.
+
+```xml
+minScale="{float greater than 0}"
+```
+The minimum allowed scale for the image. Ideally this should be less than 1, must be greater than 0, and must
+be less than maxScale. Default value is 0.6.
+
+```xml
+maxScale="{float greater than 0}"
+```
+The maximum allowed scale for the image. Ideally this should be greater than 1, must be greater than 0, and must
+be greater than minScale. Default value is 8.
+
+```xml
+zoomable="true|false"
+```
+Sets whether zooming is allowed. Default value is true.
+
+```xml
+translatable="true|false"
+```
+Sets whether translation is allowed. Default value is true.
 
 Special thanks to @mchowning for all his help
 
