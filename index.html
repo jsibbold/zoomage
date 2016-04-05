@@ -22,10 +22,10 @@
       <h1>
 <a id="zoomage" class="anchor" href="#zoomage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>zoomage</h1>
 
+<p><a href="https://travis-ci.org/jsibbold/zoomage"><img src="https://travis-ci.org/jsibbold/zoomage.svg?branch=master" alt="Build Status"></a> <a href="https://bintray.com/jsibbold/maven/zoomage/_latestVersion"> <img src="https://api.bintray.com/packages/jsibbold/maven/zoomage/images/download.svg" alt="Download"> </a>  </p>
+
 <p>A simple pinch-to-zoom ImageView library for Android with an emphasis
 on a smooth and natural feel. Great for personal image gallery experiences.</p>
-
-<p><a href="https://travis-ci.org/jsibbold/zoomage"><img src="https://travis-ci.org/jsibbold/zoomage.svg?branch=master" alt="Build Status"></a></p>
 
 <h2>
 <a id="gradle" class="anchor" href="#gradle" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Gradle</h2>
@@ -40,49 +40,6 @@ dependencies {
 
 <h1>
 <a id="using-it" class="anchor" href="#using-it" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using It</h1>
-
-<h2>
-<a id="xml-attributes" class="anchor" href="#xml-attributes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>XML Attributes</h2>
-
-<div class="highlight highlight-text-xml"><pre>restrictBounds="true|false"</pre></div>
-
-<p>Restricts the bounds of the image so it does not wander outside the border of the ImageView when it's smaller than the frame size,
-and restricts the bounds to stop at the edges of the ImageView when the image is larger than the frame size. Default value is false.</p>
-
-<div class="highlight highlight-text-xml"><pre>animateOnReset="true|false"</pre></div>
-
-<p>Image will animate back to its starting size whenever it is reset if true, and will snap back to its starting size when false.
-Default value is true.</p>
-
-<div class="highlight highlight-text-xml"><pre>autoReset="UNDER|OVER|ALWAYS|NEVER"</pre></div>
-
-<p>Determines at what times the image will reset to its starting size. Note that UNDER, OVER, and ALWAYS all have the effect of
-resetting the image to its starting position even if its size has not changed. Default value is UNDER.</p>
-
-<div class="highlight highlight-text-xml"><pre>autoCenter="true|false"</pre></div>
-
-<p>This will cause the image to pull itself into view on-screen if it is partially off-screen. Default value is true.</p>
-
-<div class="highlight highlight-text-xml"><pre>minScale="{float greater than 0}"</pre></div>
-
-<p>The minimum allowed scale for the image. Ideally this should be less than 1, must be greater than 0, and must
-be less than maxScale. Default value is 0.6.</p>
-
-<div class="highlight highlight-text-xml"><pre>maxScale="{float greater than 0}"</pre></div>
-
-<p>The maximum allowed scale for the image. Ideally this should be greater than 1, must be greater than 0, and must
-be greater than minScale. Default value is 8.</p>
-
-<div class="highlight highlight-text-xml"><pre>zoomable="true|false"</pre></div>
-
-<p>Sets whether zooming is allowed. Default value is true.</p>
-
-<div class="highlight highlight-text-xml"><pre>translatable="true|false"</pre></div>
-
-<p>Sets whether translation is allowed. Default value is true.</p>
-
-<h2>
-<a id="example-usage" class="anchor" href="#example-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example Usage</h2>
 
 <p>Simply add a ZoomageView as you would any typical ImageView in Android. The scaleType that you set on your
 ZoomageView will determine the starting size and position of your ZoomageView's image. This is the inherited
@@ -111,7 +68,49 @@ the most sense to use, fitCenter being Android's default scale type.</p>
             /&gt;
     &lt;/<span class="pl-ent">RelativeLayout</span>&gt;</pre></div>
 
-<p>Special thanks to <a href="https://github.com/mchowning" class="user-mention">@mchowning</a> for all his help</p>
+<h2>
+<a id="xml-attributes" class="anchor" href="#xml-attributes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>XML Attributes</h2>
+
+<div class="highlight highlight-text-xml"><pre>restrictBounds="true|false"</pre></div>
+
+<p>Restricts the bounds of the image so it does not wander outside the border of the ImageView when it's smaller than the frame size,
+and restricts the bounds to stop at the edges of the ImageView when the image is larger than the frame size. Default value is false.</p>
+
+<div class="highlight highlight-text-xml"><pre>animateOnReset="true|false"</pre></div>
+
+<p>Image will animate back to its starting size whenever it is reset if true, and will snap back to its starting size when false.
+Default value is true.</p>
+
+<div class="highlight highlight-text-xml"><pre>autoReset="UNDER|OVER|ALWAYS|NEVER"</pre></div>
+
+<p>Determines at what times the image will reset to its starting size. Note that UNDER, OVER, and ALWAYS all have the effect of
+resetting the image to its starting position if its size has not changed. Default value is UNDER.</p>
+
+<div class="highlight highlight-text-xml"><pre>autoCenter="true|false"</pre></div>
+
+<p>This will cause the image to pull itself into view on-screen if it is partially off-screen. Default value is true.</p>
+
+<div class="highlight highlight-text-xml"><pre>minScale="{float greater than 0}"</pre></div>
+
+<p>The minimum allowed scale for the image. Ideally this should be less than 1, must be greater than 0, and must
+be less than maxScale. Default value is 0.6.</p>
+
+<div class="highlight highlight-text-xml"><pre>maxScale="{float greater than 0}"</pre></div>
+
+<p>The maximum allowed scale for the image. Ideally this should be greater than 1, must be greater than 0, and must
+be greater than minScale. Default value is 8.</p>
+
+<div class="highlight highlight-text-xml"><pre>zoomable="true|false"</pre></div>
+
+<p>Sets whether zooming is allowed. Default value is true.</p>
+
+<div class="highlight highlight-text-xml"><pre>translatable="true|false"</pre></div>
+
+<p>Sets whether translation is allowed. Default value is true.</p>
+
+<hr>
+
+<p><strong>Special thanks to <a href="https://github.com/mchowning" class="user-mention">@mchowning</a> for all his help</strong></p>
 
 <h1>
 <a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h1>
