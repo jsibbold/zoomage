@@ -245,6 +245,20 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     }
 
     /**
+     * Set enabled state of the view. Note that this will reset the image's
+     * {@link android.widget.ImageView.ScaleType} to its pre-zoom state.
+     * @param enabled
+     */
+    @Override
+    public void setEnabled(final boolean enabled) {
+        super.setEnabled(enabled);
+
+        if (!enabled) {
+            setScaleType(startScaleType);
+        }
+    }
+
+    /**
      * Update the bounds of the displayed image based on the current matrix.
      *
      * @param values the image's current matrix values.
