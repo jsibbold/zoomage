@@ -37,6 +37,8 @@ import android.widget.ImageView;
  */
 public class ZoomageView extends ImageView implements OnScaleGestureListener {
 
+    private final String TAG = "ZoomageView";
+
     private final float MIN_SCALE = 0.6f;
     private final float MAX_SCALE = 8f;
     private final int RESET_DURATION = 200;
@@ -371,7 +373,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
             case AutoReset.ALWAYS:
                 reset();
                 break;
-            default:
+            case AutoReset.NEVER:
                 center();
         }
     }
