@@ -88,14 +88,14 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
 
         TypedArray values = context.obtainStyledAttributes(attrs, com.jsibbold.zoomage.R.styleable.ZoomageView);
 
-        zoomable = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomable, true);
-        translatable = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_translatable, true);
-        animateOnReset = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_animateOnReset, true);
-        autoCenter = values.getBoolean(R.styleable.ZoomageView_autoCenter, true);
-        restrictBounds = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_restrictBounds, false);
-        minScale = values.getFloat(com.jsibbold.zoomage.R.styleable.ZoomageView_minScale, MIN_SCALE);
-        maxScale = values.getFloat(com.jsibbold.zoomage.R.styleable.ZoomageView_maxScale, MAX_SCALE);
-        autoReset = AutoReset.Parser.fromInt(values.getInt(com.jsibbold.zoomage.R.styleable.ZoomageView_autoReset, AutoReset.UNDER));
+        zoomable = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_zoomable, true);
+        translatable = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_translatable, true);
+        animateOnReset = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_animateOnReset, true);
+        autoCenter = values.getBoolean(R.styleable.ZoomageView_zoomage_autoCenter, true);
+        restrictBounds = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_restrictBounds, false);
+        minScale = values.getFloat(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_minScale, MIN_SCALE);
+        maxScale = values.getFloat(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_maxScale, MAX_SCALE);
+        autoReset = AutoReset.Parser.fromInt(values.getInt(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_autoReset, AutoReset.UNDER));
 
         verifyScaleRange();
 
