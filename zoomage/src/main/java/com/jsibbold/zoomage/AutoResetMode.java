@@ -29,8 +29,8 @@ import java.lang.annotation.RetentionPolicy;
  * to within the screen bounds in certain situations.
  */
 @Retention(RetentionPolicy.SOURCE)
-@IntDef({AutoReset.NEVER, AutoReset.UNDER, AutoReset.OVER, AutoReset.ALWAYS})
-public @interface AutoReset {
+@IntDef({AutoResetMode.NEVER, AutoResetMode.UNDER, AutoResetMode.OVER, AutoResetMode.ALWAYS})
+public @interface AutoResetMode {
 
     int UNDER = 0;
     int OVER = 1;
@@ -39,7 +39,7 @@ public @interface AutoReset {
 
     class Parser {
 
-        @AutoReset
+        @AutoResetMode
         public static int fromInt(final int value) {
             switch (value) {
                 case OVER:

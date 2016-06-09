@@ -38,7 +38,7 @@ the most sense to use, fitCenter being Android's default scale type.
             android:src="@drawable/my_zoomable_image"
             app:zoomage_restrictBounds="false"
             app:zoomage_animateOnReset="true"
-            app:zoomage_autoReset="UNDER"
+            app:zoomage_autoResetMode="UNDER"
             app:zoomage_autoCenter="true"
             app:zoomage_zoomable="true"
             app:zoomage_translatable="true"
@@ -63,7 +63,7 @@ Image will animate back to its starting size whenever it is reset if true, and w
 Default value is true.
 
 ```xml
-zoomage_autoReset="UNDER|OVER|ALWAYS|NEVER"
+zoomage_autoResetMode="UNDER|OVER|ALWAYS|NEVER"
 ```
 Determines at what times the image will reset to its starting size. Note that UNDER, OVER, and ALWAYS all have the effect of
 resetting the image to its starting position if its size has not changed. Default value is UNDER.

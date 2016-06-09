@@ -32,7 +32,7 @@
         android:src="@drawable/zoom_demo"
         app:zoomage_restrictBounds="false"
         app:zoomage_animateOnReset="true"
-        app:zoomage_autoReset="UNDER"
+        app:zoomage_autoResetMode="UNDER"
         app:zoomage_autoCenter="true"
         app:zoomage_zoomable="true"
         app:zoomage_translatable="true"

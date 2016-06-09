@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(final DialogInterface dialog, final int which) {
-                demoView.setAutoReset(which);
+                demoView.setAutoResetMode(which);
             }
         });
 

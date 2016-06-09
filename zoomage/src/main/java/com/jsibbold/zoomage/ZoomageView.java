@@ -63,7 +63,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     private boolean restrictBounds;
     private boolean animateOnReset;
     private boolean autoCenter;
-    @AutoReset private int autoReset;
+    @AutoResetMode private int autoResetMode;
 
     private PointF last = new PointF(0, 0);
     private float startScale = 1f;
@@ -95,7 +95,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
         restrictBounds = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_restrictBounds, false);
         minScale = values.getFloat(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_minScale, MIN_SCALE);
         maxScale = values.getFloat(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_maxScale, MAX_SCALE);
-        autoReset = AutoReset.Parser.fromInt(values.getInt(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_autoReset, AutoReset.UNDER));
+        autoResetMode = AutoResetMode.Parser.fromInt(values.getInt(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_autoResetMode, AutoResetMode.UNDER));
 
         verifyScaleRange();
 
@@ -201,22 +201,22 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     }
 
     /**
-     * Get the current {@link AutoReset} mode of the image. Default value is {@link AutoReset#UNDER}.
-     * @return the current {@link AutoReset} mode, one of {@link AutoReset#OVER OVER}, {@link AutoReset#UNDER UNDER},
-     * {@link AutoReset#ALWAYS ALWAYS}, or {@link AutoReset#NEVER NEVER}
+     * Get the current {@link AutoResetMode} mode of the image. Default value is {@link AutoResetMode#UNDER}.
+     * @return the current {@link AutoResetMode} mode, one of {@link AutoResetMode#OVER OVER}, {@link AutoResetMode#UNDER UNDER},
+     * {@link AutoResetMode#ALWAYS ALWAYS}, or {@link AutoResetMode#NEVER NEVER}
      */
-    @AutoReset
-    public int getAutoReset() {
-        return autoReset;
+    @AutoResetMode
+    public int getAutoResetMode() {
+        return autoResetMode;
     }
 
     /**
-     * Set the {@link AutoReset} mode for the image.
-     * @param autoReset the desired mode, one of {@link AutoReset#OVER OVER}, {@link AutoReset#UNDER UNDER},
-     * {@link AutoReset#ALWAYS ALWAYS}, or {@link AutoReset#NEVER NEVER}
+     * Set the {@link AutoResetMode} mode for the image.
+     * @param autoReset the desired mode, one of {@link AutoResetMode#OVER OVER}, {@link AutoResetMode#UNDER UNDER},
+     * {@link AutoResetMode#ALWAYS ALWAYS}, or {@link AutoResetMode#NEVER NEVER}
      */
-    public void setAutoReset(@AutoReset final int autoReset) {
-        this.autoReset = autoReset;
+    public void setAutoResetMode(@AutoResetMode final int autoReset) {
+        this.autoResetMode = autoReset;
     }
 
     /**
@@ -366,28 +366,28 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     }
 
     /**
-     * Reset the image based on the specified {@link AutoReset} mode.
+     * Reset the image based on the specified {@link AutoResetMode} mode.
      */
     private void resetImage() {
-        switch (autoReset) {
-            case AutoReset.UNDER:
+        switch (autoResetMode) {
+            case AutoResetMode.UNDER:
                 if (mValues[Matrix.MSCALE_X] <= startValues[Matrix.MSCALE_X]) {
                     reset();
                 } else {
                     center();
                 }
                 break;
-            case AutoReset.OVER:
+            case AutoResetMode.OVER:
                 if (mValues[Matrix.MSCALE_X] >= startValues[Matrix.MSCALE_X]) {
                     reset();
                 } else {
                     center();
                 }
                 break;
-            case AutoReset.ALWAYS:
+            case AutoResetMode.ALWAYS:
                 reset();
                 break;
-            case AutoReset.NEVER:
+            case AutoResetMode.NEVER:
                 center();
         }
     }
