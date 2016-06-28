@@ -53,6 +53,10 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     private float minScale = MIN_SCALE;
     private float maxScale = MAX_SCALE;
 
+    //the adjusted scale bounds that account for an image's starting scale values
+    private float calculatedMinScale = MIN_SCALE;
+    private float calculatedMaxScale = MAX_SCALE;
+
     private final RectF bounds = new RectF();
 
     private boolean translatable;
@@ -300,8 +304,8 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
         startValues = new float[9];
         startMatrix = new Matrix(getImageMatrix());
         startMatrix.getValues(startValues);
-        minScale *= startValues[Matrix.MSCALE_X];
-        maxScale *= startValues[Matrix.MSCALE_X];
+        calculatedMinScale = minScale * startValues[Matrix.MSCALE_X];
+        calculatedMaxScale = maxScale * startValues[Matrix.MSCALE_X];
     }
 
     @Override
@@ -646,10 +650,10 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
         final float projectedScale = scaleBy * mValues[Matrix.MSCALE_X];
 
         //clamp to the min/max if it's going over
-        if (projectedScale < minScale) {
-            scaleBy = minScale / mValues[Matrix.MSCALE_X];
-        } else if (projectedScale > maxScale) {
-            scaleBy = maxScale / mValues[Matrix.MSCALE_X];
+        if (projectedScale < calculatedMinScale) {
+            scaleBy = calculatedMinScale / mValues[Matrix.MSCALE_X];
+        } else if (projectedScale > calculatedMaxScale) {
+            scaleBy = calculatedMaxScale / mValues[Matrix.MSCALE_X];
         }
 
         return false;
