@@ -37,21 +37,18 @@ import android.widget.ImageView;
  */
 public class ZoomageView extends ImageView implements OnScaleGestureListener {
 
-    private final String TAG = "ZoomageView";
-
     private final float MIN_SCALE = 0.6f;
     private final float MAX_SCALE = 8f;
     private final int RESET_DURATION = 200;
 
     private ScaleType startScaleType;
-    private boolean startValuesSet = false;
 
     // These matrices will be used to move and zoom image
     private Matrix matrix = new Matrix();
     private Matrix startMatrix = new Matrix();
 
     private float[] mValues = new float[9];
-    private float[] startValues = new float[9];
+    private float[] startValues = null;
 
     private float minScale = MIN_SCALE;
     private float maxScale = MAX_SCALE;
@@ -241,13 +238,13 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     public void setScaleType(ScaleType scaleType) {
         super.setScaleType(scaleType);
         startScaleType = scaleType;
-        startValuesSet = false;
+        startValues = null;
     }
 
     /**
      * Set enabled state of the view. Note that this will reset the image's
      * {@link android.widget.ImageView.ScaleType} to its pre-zoom state.
-     * @param enabled
+     * @param enabled enabled state
      */
     @Override
     public void setEnabled(final boolean enabled) {
@@ -300,19 +297,22 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
      * Remember our starting values so we can animate our image back to its original position.
      */
     private void setStartValues() {
+        startValues = new float[9];
         startMatrix = new Matrix(getImageMatrix());
         startMatrix.getValues(startValues);
         minScale *= startValues[Matrix.MSCALE_X];
         maxScale *= startValues[Matrix.MSCALE_X];
-        startValuesSet = true;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
         if (isEnabled() && (zoomable || translatable)) {
-            if (!startValuesSet) {
+            if (getScaleType() != ScaleType.MATRIX) {
                 super.setScaleType(ScaleType.MATRIX);
+            }
+
+            if (startValues == null) {
                 setStartValues();
             }
 
