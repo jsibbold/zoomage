@@ -128,6 +128,8 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
         this.minScale = minScale;
         this.maxScale = maxScale;
 
+        startValues = null;
+
         verifyScaleRange();
     }
 
