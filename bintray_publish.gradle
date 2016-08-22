@@ -1,4 +1,6 @@
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.jfrog.artifactory'
+
 
 version = libraryVersion
 
@@ -21,7 +23,7 @@ android.libraryVariants.all { variant ->
     }
 
     task ("generate${variantName}JavadocJar", type: Jar, dependsOn: javaDocTaskName) {
-        classifier = javaDocTaskName
+        classifier = 'javadoc'
         from getTasksByName(javaDocTaskName, true).destinationDir
     }
 
@@ -70,6 +72,33 @@ bintray {
         publicDownloadNumbers = true
         version {
             desc = libraryDescription
+        }
+    }
+}
+
+artifactory {
+    contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
+    publish {
+        repository {
+            repoKey = 'oss-snapshot-local'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+        }
+        defaults {
+            publishConfigs('archives')
+            properties = ['build.status': "$it.project.status".toString()]
+            publishPom = true //Publish generated POM files to Artifactory (true by default)
+            publishIvy = false //Publish generated Ivy descriptor files to Artifactory (true by default)
+        }
+    }
+
+    resolve {
+        repository {
+            repoKey = 'libs-release'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
         }
     }
 }
