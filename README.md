@@ -17,6 +17,17 @@ dependencies {
 }
 ```
 
+### For the latest snapshot use
+```groovy
+repositories {
+    maven { url 'https://oss.jfrog.org/artifactory/oss-snapshot-local' }
+}
+
+dependencies {
+    compile 'com.jsibbold:zoomage:1.1.0-SNAPSHOT'
+}
+```
+
 # Using It
 
 Simply add a ZoomageView as you would any typical ImageView in Android. The scaleType that you set on your
