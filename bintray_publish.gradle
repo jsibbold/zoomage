@@ -1,4 +1,6 @@
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.jfrog.artifactory'
+
 
 version = libraryVersion
 
@@ -21,7 +23,7 @@ android.libraryVariants.all { variant ->
     }
 
     task ("generate${variantName}JavadocJar", type: Jar, dependsOn: javaDocTaskName) {
-        classifier = javaDocTaskName
+        classifier = 'javadoc'
         from getTasksByName(javaDocTaskName, true).destinationDir
     }
 
@@ -70,6 +72,47 @@ bintray {
         publicDownloadNumbers = true
         version {
             desc = libraryDescription
+        }
+    }
+}
+
+artifactory {
+    def artifactoryUrlProperty = 'artifactory_contextUrl'
+    def artifactoryUrl = project.hasProperty(artifactoryUrlProperty) ?
+            project.property(artifactoryUrlProperty) : ''
+
+
+    def artifactoryUserProperty = 'artifactory_user'
+    def artifactoryUserName = project.hasProperty(artifactoryUserProperty) ?
+            project.property(artifactoryUserProperty) : ''
+
+
+    def artifactoryPasswordProperty = 'artifactory_password'
+    def artifactoryPassword = project.hasProperty(artifactoryPasswordProperty) ?
+            project.property(artifactoryPasswordProperty) : ''
+
+    contextUrl = artifactoryUrl   //The base Artifactory URL if not overridden by the publisher/resolver
+    publish {
+        repository {
+            repoKey = 'oss-snapshot-local'
+            username = artifactoryUserName
+            password = artifactoryPassword
+            maven = true
+        }
+        defaults {
+            publishConfigs('archives')
+            properties = ['build.status': "$it.project.status".toString()]
+            publishPom = true //Publish generated POM files to Artifactory (true by default)
+            publishIvy = false //Publish generated Ivy descriptor files to Artifactory (true by default)
+        }
+    }
+
+    resolve {
+        repository {
+            repoKey = 'libs-release'
+            username = artifactoryUserName
+            password = artifactoryPassword
+            maven = true
         }
     }
 }
