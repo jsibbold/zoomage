@@ -77,22 +77,26 @@ bintray {
 }
 
 artifactory {
+    def artifactoryUrlProperty = 'artifactory_contextUrl'
+    def artifactoryUrl = project.hasProperty(artifactoryUrlProperty) ?
+            project.property(artifactoryUrlProperty) : ''
 
-    def artifactoryUrl = project.hasProperty('artifactory_contextUrl') ?
-            project.property('artifactory_contextUrl') : ''
 
-    def artifactoryUserName = project.hasProperty('artifactory_user') ?
-            project.property('artifactory_user') : ''
+    def artifactoryUserProperty = 'artifactory_user'
+    def artifactoryUserName = project.hasProperty(artifactoryUserProperty) ?
+            project.property(artifactoryUserProperty) : ''
 
-    def artifactoryUserPassword = project.hasProperty('artifactory_password') ?
-            project.property('artifactory_password') : ''
+
+    def artifactoryPasswordProperty = 'artifactory_password'
+    def artifactoryPassword = project.hasProperty(artifactoryPasswordProperty) ?
+            project.property(artifactoryPasswordProperty) : ''
 
     contextUrl = artifactoryUrl   //The base Artifactory URL if not overridden by the publisher/resolver
     publish {
         repository {
             repoKey = 'oss-snapshot-local'
             username = artifactoryUserName
-            password = artifactoryUserPassword
+            password = artifactoryPassword
             maven = true
         }
         defaults {
@@ -107,7 +111,7 @@ artifactory {
         repository {
             repoKey = 'libs-release'
             username = artifactoryUserName
-            password = artifactoryUserPassword
+            password = artifactoryPassword
             maven = true
         }
     }
