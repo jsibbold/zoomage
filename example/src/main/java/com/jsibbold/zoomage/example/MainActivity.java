@@ -31,28 +31,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ZoomageView demoView;
     private View optionsView;
+    private AlertDialog optionsDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.jsibbold.zoomage.example.R.layout.activity_main);
+        setContentView(R.layout.activity_main);
         demoView = (ZoomageView)findViewById(R.id.demoView);
-        optionsView = findViewById(R.id.optionsView);
         prepareOptions();
     }
 
     private void prepareOptions() {
+        optionsView = getLayoutInflater().inflate(R.layout.zoomage_options, null);
         setSwitch(R.id.zoomable, demoView.isZoomable());
         setSwitch(R.id.translatable, demoView.isTranslatable());
         setSwitch(R.id.animateOnReset, demoView.getAnimateOnReset());
         setSwitch(R.id.autoCenter, demoView.getAutoCenter());
         setSwitch(R.id.restrictBounds, demoView.getRestrictBounds());
-        findViewById(R.id.reset).setOnClickListener(this);
-        findViewById(R.id.autoReset).setOnClickListener(this);
+        optionsView.findViewById(R.id.reset).setOnClickListener(this);
+        optionsView.findViewById(R.id.autoReset).setOnClickListener(this);
+
+        optionsDialog = new AlertDialog.Builder(this).setTitle("Zoomage Options")
+                .setView(optionsView)
+                .setPositiveButton("Close", null)
+                .create();
     }
 
     private void setSwitch(int id, boolean state) {
-        final SwitchCompat switchView = (SwitchCompat) findViewById(id);
+        final SwitchCompat switchView = (SwitchCompat) optionsView.findViewById(id);
         switchView.setOnCheckedChangeListener(this);
         switchView.setChecked(state);
     }
@@ -65,11 +71,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (optionsView.getVisibility() == View.VISIBLE) {
-            optionsView.setVisibility(View.GONE);
-        }
-        else {
-            optionsView.setVisibility(View.VISIBLE);
+        if (!optionsDialog.isShowing()) {
+            optionsDialog.show();
         }
 
         return super.onOptionsItemSelected(item);
