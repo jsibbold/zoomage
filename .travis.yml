@@ -9,11 +9,11 @@ android:
   components:
   - platform-tools
   - tools
-  - build-tools-24.0.2
-  - android-23
+  - build-tools-24.0.3
+  - android-24
   - extra-android-m2repository
   - extra-android-support
-  - doc-23
+  - doc-24
 branches:
   only:
   - master
