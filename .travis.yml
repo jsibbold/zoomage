@@ -5,6 +5,7 @@ cache:
   - "$HOME/.gradle/caches/"
   - "$HOME/.gradle/wrapper/"
 language: android
+jdk: oraclejdk8
 android:
   components:
   - platform-tools
