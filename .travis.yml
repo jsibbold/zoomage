@@ -15,6 +15,7 @@ android:
   - android-24
   - extra-android-m2repository
   - extra-android-support
+  - doc-22
   - doc-24
 branches:
   only:
