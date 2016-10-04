@@ -123,14 +123,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         builder.create().show();
     }
-
-    @Override
-    public void onBackPressed() {
-        if (optionsView.getVisibility() == View.VISIBLE) {
-            optionsView.setVisibility(View.GONE);
-        }
-        else {
-            super.onBackPressed();
-        }
-    }
 }
