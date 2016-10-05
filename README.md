@@ -1,6 +1,6 @@
 # zoomage
-[![Build Status](https://travis-ci.org/jsibbold/zoomage.svg?branch=master)](https://travis-ci.org/jsibbold/zoomage) [ ![Download](https://api.bintray.com/packages/jsibbold/maven/zoomage/images/download.svg) ](https://bintray.com/jsibbold/maven/zoomage/_latestVersion)  
-  
+[![Build Status](https://travis-ci.org/jsibbold/zoomage.svg?branch=master)](https://travis-ci.org/jsibbold/zoomage) [ ![Download](https://api.bintray.com/packages/jsibbold/maven/zoomage/images/download.svg) ](https://bintray.com/jsibbold/maven/zoomage/_latestVersion) <a href="http://www.detroitlabs.com/"><img src="https://img.shields.io/badge/Sponsor-Detroit%20Labs-000000.svg" /></a>
+
 A simple pinch-to-zoom ImageView library for Android with an emphasis
 on a smooth and natural feel. Great for personal image gallery experiences.
 
@@ -107,7 +107,7 @@ zoomage_translatable="true|false"
 Sets whether translation is allowed. Default value is true.
 
 ---
-**Special thanks to @mchowning for all his help**
+**Special thanks to <a href="https://github.com/mchowning">@mchowning</a> for all his help**
 
 # License
 ```
