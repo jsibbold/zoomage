@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/jsibbold/zoomage.svg?branch=master)](https://travis-ci.org/jsibbold/zoomage) [ ![Download](https://api.bintray.com/packages/jsibbold/maven/zoomage/images/download.svg) ](https://bintray.com/jsibbold/maven/zoomage/_latestVersion) <a href="http://www.detroitlabs.com/"><img src="https://img.shields.io/badge/Sponsor-Detroit%20Labs-000000.svg" /></a>
 
 A simple pinch-to-zoom ImageView library for Android with an emphasis
-on a smooth and natural feel. Great for personal image gallery experiences.
+on a smooth and natural feel.
 
 
 
