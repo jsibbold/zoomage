@@ -47,7 +47,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     private Matrix matrix = new Matrix();
     private Matrix startMatrix = new Matrix();
 
-    private float[] mValues = new float[9];
+    private float[] matrixValues = new float[9];
     private float[] startValues = null;
 
     private float minScale = MIN_SCALE;
@@ -282,7 +282,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
      */
     private float getCurrentDisplayedWidth() {
         if (getDrawable() != null)
-            return getDrawable().getIntrinsicWidth() * mValues[Matrix.MSCALE_X];
+            return getDrawable().getIntrinsicWidth() * matrixValues[Matrix.MSCALE_X];
         else
             return 0;
     }
@@ -294,7 +294,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
      */
     private float getCurrentDisplayedHeight() {
         if (getDrawable() != null)
-            return getDrawable().getIntrinsicHeight() * mValues[Matrix.MSCALE_Y];
+            return getDrawable().getIntrinsicHeight() * matrixValues[Matrix.MSCALE_Y];
         else
             return 0;
     }
@@ -324,8 +324,8 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
 
             //get the current state of the image matrix, its values, and the bounds of the drawn bitmap
             matrix.set(getImageMatrix());
-            matrix.getValues(mValues);
-            updateBounds(mValues);
+            matrix.getValues(matrixValues);
+            updateBounds(matrixValues);
 
             scaleDetector.onTouchEvent(event);
 
@@ -377,14 +377,14 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     private void resetImage() {
         switch (autoResetMode) {
             case AutoResetMode.UNDER:
-                if (mValues[Matrix.MSCALE_X] <= startValues[Matrix.MSCALE_X]) {
+                if (matrixValues[Matrix.MSCALE_X] <= startValues[Matrix.MSCALE_X]) {
                     reset();
                 } else {
                     center();
                 }
                 break;
             case AutoResetMode.OVER:
-                if (mValues[Matrix.MSCALE_X] >= startValues[Matrix.MSCALE_X]) {
+                if (matrixValues[Matrix.MSCALE_X] >= startValues[Matrix.MSCALE_X]) {
                     reset();
                 } else {
                     center();
@@ -437,13 +437,13 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     private void animateToStartMatrix() {
 
         final Matrix beginMatrix = new Matrix(getImageMatrix());
-        beginMatrix.getValues(mValues);
+        beginMatrix.getValues(matrixValues);
 
         //difference in current and original values
-        final float xsdiff = startValues[Matrix.MSCALE_X] - mValues[Matrix.MSCALE_X];
-        final float ysdiff = startValues[Matrix.MSCALE_Y] - mValues[Matrix.MSCALE_Y];
-        final float xtdiff = startValues[Matrix.MTRANS_X] - mValues[Matrix.MTRANS_X];
-        final float ytdiff = startValues[Matrix.MTRANS_Y] - mValues[Matrix.MTRANS_Y];
+        final float xsdiff = startValues[Matrix.MSCALE_X] - matrixValues[Matrix.MSCALE_X];
+        final float ysdiff = startValues[Matrix.MSCALE_Y] - matrixValues[Matrix.MSCALE_Y];
+        final float xtdiff = startValues[Matrix.MTRANS_X] - matrixValues[Matrix.MTRANS_X];
+        final float ytdiff = startValues[Matrix.MTRANS_Y] - matrixValues[Matrix.MTRANS_Y];
 
         ValueAnimator anim = ValueAnimator.ofFloat(0, 1f);
         anim.addUpdateListener(new AnimatorUpdateListener() {
@@ -513,7 +513,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     }
 
     private void animateMatrixIndex(final int index, final float to) {
-        ValueAnimator animator = ValueAnimator.ofFloat(mValues[index], to);
+        ValueAnimator animator = ValueAnimator.ofFloat(matrixValues[index], to);
         animator.addUpdateListener(new AnimatorUpdateListener() {
 
             final float[] values = new float[9];
@@ -646,16 +646,16 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
     public boolean onScale(ScaleGestureDetector detector) {
 
         //calculate value we should scale by, ultimately the scale will be startScale*scaleFactor
-        scaleBy = (startScale * detector.getScaleFactor()) / mValues[Matrix.MSCALE_X];
+        scaleBy = (startScale * detector.getScaleFactor()) / matrixValues[Matrix.MSCALE_X];
 
         //what the scaling should end up at after the transformation
-        final float projectedScale = scaleBy * mValues[Matrix.MSCALE_X];
+        final float projectedScale = scaleBy * matrixValues[Matrix.MSCALE_X];
 
         //clamp to the min/max if it's going over
         if (projectedScale < calculatedMinScale) {
-            scaleBy = calculatedMinScale / mValues[Matrix.MSCALE_X];
+            scaleBy = calculatedMinScale / matrixValues[Matrix.MSCALE_X];
         } else if (projectedScale > calculatedMaxScale) {
-            scaleBy = calculatedMaxScale / mValues[Matrix.MSCALE_X];
+            scaleBy = calculatedMaxScale / matrixValues[Matrix.MSCALE_X];
         }
 
         return false;
@@ -663,7 +663,7 @@ public class ZoomageView extends ImageView implements OnScaleGestureListener {
 
     @Override
     public boolean onScaleBegin(ScaleGestureDetector detector) {
-        startScale = mValues[Matrix.MSCALE_X];
+        startScale = matrixValues[Matrix.MSCALE_X];
         return true;
     }
 
