@@ -10,7 +10,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.1'
         classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.13.1"
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
 
@@ -41,4 +41,11 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    supportVersion = "25.3.1"
+    compileVersion = 25
+    targetVersion = 25
+    buildToolsVersion = "25.0.2"
 }

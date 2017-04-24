@@ -23,6 +23,7 @@ import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.support.v4.view.ScaleGestureDetectorCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -35,7 +36,7 @@ import android.widget.ImageView;
  * automatic resetting, and allows for exterior bounds restriction to keep the image within
  * visible window.
  */
-public class ZoomageView extends ImageView implements OnScaleGestureListener {
+public class ZoomageView extends AppCompatImageView implements OnScaleGestureListener {
 
     private final float MIN_SCALE = 0.6f;
     private final float MAX_SCALE = 8f;
