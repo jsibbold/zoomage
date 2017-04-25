@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.jsibbold:zoomage:1.0.0'
+    compile 'com.jsibbold:zoomage:1.1.0'
 }
 ```
 
