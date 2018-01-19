@@ -359,7 +359,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        if (isEnabled() && (zoomable || translatable)) {
+        if (!isClickable() && isEnabled() && (zoomable || translatable)) {
             if (getScaleType() != ScaleType.MATRIX) {
                 super.setScaleType(ScaleType.MATRIX);
             }
