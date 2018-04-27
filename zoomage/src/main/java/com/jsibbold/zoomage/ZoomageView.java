@@ -19,9 +19,13 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ScaleGestureDetectorCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
@@ -241,11 +245,16 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
         this.autoCenter = autoCenter;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setScaleType(ScaleType scaleType) {
-        super.setScaleType(scaleType);
-        startScaleType = scaleType;
-        startValues = null;
+    public void setScaleType(@Nullable ScaleType scaleType) {
+        if (scaleType != null) {
+            super.setScaleType(scaleType);
+            startScaleType = scaleType;
+            startValues = null;
+        }
     }
 
     /**
@@ -260,6 +269,42 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
         if (!enabled) {
             setScaleType(startScaleType);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setImageResource(int resId) {
+        super.setImageResource(resId);
+        setScaleType(startScaleType);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setImageDrawable(@Nullable Drawable drawable) {
+        super.setImageDrawable(drawable);
+        setScaleType(startScaleType);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setImageBitmap(Bitmap bm) {
+        super.setImageBitmap(bm);
+        setScaleType(startScaleType);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setImageURI(@Nullable Uri uri) {
+        super.setImageURI(uri);
+        setScaleType(startScaleType);
     }
 
     /**
@@ -314,7 +359,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        if (isEnabled() && (zoomable || translatable)) {
+        if (!isClickable() && isEnabled() && (zoomable || translatable)) {
             if (getScaleType() != ScaleType.MATRIX) {
                 super.setScaleType(ScaleType.MATRIX);
             }
