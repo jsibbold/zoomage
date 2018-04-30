@@ -4,15 +4,16 @@ buildscript {
     repositories {
         jcenter()
         mavenCentral()
+        google()
 
         maven{
             url "https://plugins.gradle.org/m2/"
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.13.1"
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -27,6 +28,7 @@ plugins {
 allprojects {
     repositories {
         jcenter()
+        google()
     }
 
     configurations.all {
@@ -44,8 +46,8 @@ task clean(type: Delete) {
 }
 
 ext {
-    supportVersion = "25.3.1"
-    compileVersion = 25
-    targetVersion = 25
-    buildToolsVersion = "25.0.2"
+    supportVersion = "27.0.2"
+    compileVersion = 27
+    targetVersion = 27
+    buildToolsVersion = "26.0.2"
 }
