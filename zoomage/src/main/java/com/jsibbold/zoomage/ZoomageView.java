@@ -78,6 +78,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
     private PointF last = new PointF(0, 0);
     private float startScale = 1f;
     private float scaleBy = 1f;
+    private float currentScaleFactor = 1f;
     private int previousPointerCount = 1;
 
     private ScaleGestureDetector scaleDetector;
@@ -304,6 +305,14 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
     }
 
     /**
+     * Get the current scale factor of the image, in relation to its starting size.
+     * @return the current scale factor
+     */
+    public float getCurrentScaleFactor() {
+        return currentScaleFactor;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -466,6 +475,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
                     if (zoomable) {
                         matrix.postScale(scaleBy, scaleBy, focusx, focusy);
+                        currentScaleFactor = matrixValues[Matrix.MSCALE_X] / startValues[Matrix.MSCALE_X];
                     }
 
                     setImageMatrix(matrix);
