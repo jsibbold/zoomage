@@ -23,6 +23,8 @@
         <attr name="zoomage_translatable" format="boolean" />
         <attr name="zoomage_restrictBounds" format="boolean" />
         <attr name="zoomage_animateOnReset" format="boolean" />
+        <attr name="zoomage_doubleTapToZoom" format="boolean" />
+        <attr name="zoomage_doubleTapToZoomScaleFactor" format="float" />
         <attr name="zoomage_autoCenter" format="boolean" />
         <attr name="zoomage_minScale" format="float" />
         <attr name="zoomage_maxScale" format="float" />

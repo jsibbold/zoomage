@@ -15,6 +15,7 @@
  */
 package com.jsibbold.zoomage;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
@@ -29,6 +30,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ScaleGestureDetectorCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.OnScaleGestureListener;
@@ -42,8 +44,8 @@ import android.widget.ImageView;
  */
 public class ZoomageView extends AppCompatImageView implements OnScaleGestureListener {
 
-    private final float MIN_SCALE = 0.6f;
-    private final float MAX_SCALE = 8f;
+    private static final float MIN_SCALE = 0.6f;
+    private static final float MAX_SCALE = 8f;
     private final int RESET_DURATION = 200;
 
     private ScaleType startScaleType;
@@ -66,42 +68,58 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
     private boolean translatable;
     private boolean zoomable;
+    private boolean doubleTapToZoom;
     private boolean restrictBounds;
     private boolean animateOnReset;
     private boolean autoCenter;
+    private float doubleTapToZoomScaleFactor;
     @AutoResetMode private int autoResetMode;
 
     private PointF last = new PointF(0, 0);
     private float startScale = 1f;
     private float scaleBy = 1f;
+    private float currentScaleFactor = 1f;
     private int previousPointerCount = 1;
 
     private ScaleGestureDetector scaleDetector;
 
+    private GestureDetector gestureDetector;
+    private boolean doubleTapDetected = false;
+    private boolean singleTapDetected = false;
+
     public ZoomageView(Context context) {
-        this(context, null);
+        super(context);
+        init(context, null);
     }
 
     public ZoomageView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
+        init(context, attrs);
     }
 
     public ZoomageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        init(context, attrs);
+    }
+
+    private void init(Context context, AttributeSet attrs) {
         scaleDetector = new ScaleGestureDetector(context, this);
+        gestureDetector = new GestureDetector(context, gestureListener);
         ScaleGestureDetectorCompat.setQuickScaleEnabled(scaleDetector, false);
         startScaleType = getScaleType();
 
-        TypedArray values = context.obtainStyledAttributes(attrs, com.jsibbold.zoomage.R.styleable.ZoomageView);
+        TypedArray values = context.obtainStyledAttributes(attrs, R.styleable.ZoomageView);
 
-        zoomable = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_zoomable, true);
-        translatable = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_translatable, true);
-        animateOnReset = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_animateOnReset, true);
+        zoomable = values.getBoolean(R.styleable.ZoomageView_zoomage_zoomable, true);
+        translatable = values.getBoolean(R.styleable.ZoomageView_zoomage_translatable, true);
+        animateOnReset = values.getBoolean(R.styleable.ZoomageView_zoomage_animateOnReset, true);
         autoCenter = values.getBoolean(R.styleable.ZoomageView_zoomage_autoCenter, true);
-        restrictBounds = values.getBoolean(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_restrictBounds, false);
-        minScale = values.getFloat(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_minScale, MIN_SCALE);
-        maxScale = values.getFloat(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_maxScale, MAX_SCALE);
-        autoResetMode = AutoResetMode.Parser.fromInt(values.getInt(com.jsibbold.zoomage.R.styleable.ZoomageView_zoomage_autoResetMode, AutoResetMode.UNDER));
+        restrictBounds = values.getBoolean(R.styleable.ZoomageView_zoomage_restrictBounds, false);
+        doubleTapToZoom = values.getBoolean(R.styleable.ZoomageView_zoomage_doubleTapToZoom, true);
+        minScale = values.getFloat(R.styleable.ZoomageView_zoomage_minScale, MIN_SCALE);
+        maxScale = values.getFloat(R.styleable.ZoomageView_zoomage_maxScale, MAX_SCALE);
+        doubleTapToZoomScaleFactor = values.getFloat(R.styleable.ZoomageView_zoomage_doubleTapToZoomScaleFactor, 3);
+        autoResetMode = AutoResetMode.Parser.fromInt(values.getInt(R.styleable.ZoomageView_zoomage_autoResetMode, AutoResetMode.UNDER));
 
         verifyScaleRange();
 
@@ -119,6 +137,14 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
         if (maxScale < 0) {
             throw new IllegalStateException("maxScale must be greater than 0");
+        }
+
+        if (doubleTapToZoomScaleFactor > maxScale) {
+            doubleTapToZoomScaleFactor = maxScale;
+        }
+
+        if (doubleTapToZoomScaleFactor < minScale) {
+            doubleTapToZoomScaleFactor = minScale;
         }
     }
 
@@ -243,6 +269,47 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
      */
     public void setAutoCenter(final boolean autoCenter) {
         this.autoCenter = autoCenter;
+    }
+
+    /**
+     * Gets double tap to zoom state.
+     * @return whether double tap to zoom is enabled
+     */
+    public boolean getDoubleTapToZoom() {
+        return doubleTapToZoom;
+    }
+
+    /**
+     * Sets double tap to zoom state.
+     * @param doubleTapToZoom true if double tap to zoom should be enabled
+     */
+    public void setDoubleTapToZoom(boolean doubleTapToZoom) {
+        this.doubleTapToZoom = doubleTapToZoom;
+    }
+
+    /**
+     * Gets the double tap to zoom scale factor.
+     * @return double tap to zoom scale factor
+     */
+    public float getDoubleTapToZoomScaleFactor() {
+        return doubleTapToZoomScaleFactor;
+    }
+
+    /**
+     * Sets the double tap to zoom scale factor. Can be a maximum of max scale.
+     * @param doubleTapToZoomScaleFactor the scale factor you want to zoom to when double tap occurs
+     */
+    public void setDoubleTapToZoomScaleFactor(float doubleTapToZoomScaleFactor) {
+        this.doubleTapToZoomScaleFactor = doubleTapToZoomScaleFactor;
+        verifyScaleRange();
+    }
+
+    /**
+     * Get the current scale factor of the image, in relation to its starting size.
+     * @return the current scale factor
+     */
+    public float getCurrentScaleFactor() {
+        return currentScaleFactor;
     }
 
     /**
@@ -374,38 +441,52 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
             updateBounds(matrixValues);
 
             scaleDetector.onTouchEvent(event);
+            gestureDetector.onTouchEvent(event);
 
-            /* if the event is a down touch, or if the number of touch points changed,
-            * we should reset our start point, as event origins have likely shifted to a
-            * different part of the screen*/
-            if (event.getActionMasked() == MotionEvent.ACTION_DOWN ||
-                    event.getPointerCount() != previousPointerCount) {
-                last.set(scaleDetector.getFocusX(), scaleDetector.getFocusY());
-            }
-            else if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
+            if (doubleTapToZoom && doubleTapDetected) {
+                doubleTapDetected = false;
+                singleTapDetected = false;
+                if (matrixValues[Matrix.MSCALE_X] != startValues[Matrix.MSCALE_X]) {
+                    reset();
+                } else {
+                    Matrix zoomMatrix = new Matrix(matrix);
+                    zoomMatrix.postScale(doubleTapToZoomScaleFactor, doubleTapToZoomScaleFactor, scaleDetector.getFocusX(), scaleDetector.getFocusY());
+                    animateScaleAndTranslationToMatrix(zoomMatrix, RESET_DURATION);
+                }
+                return true;
+            } else if (!singleTapDetected){
+                /* if the event is a down touch, or if the number of touch points changed,
+                * we should reset our start point, as event origins have likely shifted to a
+                * different part of the screen*/
+                if (event.getActionMasked() == MotionEvent.ACTION_DOWN ||
+                        event.getPointerCount() != previousPointerCount) {
+                    last.set(scaleDetector.getFocusX(), scaleDetector.getFocusY());
+                } else if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
 
-                final float focusx = scaleDetector.getFocusX();
-                final float focusy = scaleDetector.getFocusY();
+                    final float focusx = scaleDetector.getFocusX();
+                    final float focusy = scaleDetector.getFocusY();
 
-                if (translatable) {
-                    //calculate the distance for translation
-                    float xdistance = getXDistance(focusx, last.x);
-                    float ydistance = getYDistance(focusy, last.y);
-                    matrix.postTranslate(xdistance, ydistance);
+                    if (translatable) {
+                        //calculate the distance for translation
+                        float xdistance = getXDistance(focusx, last.x);
+                        float ydistance = getYDistance(focusy, last.y);
+                        matrix.postTranslate(xdistance, ydistance);
+                    }
+
+                    if (zoomable) {
+                        matrix.postScale(scaleBy, scaleBy, focusx, focusy);
+                        currentScaleFactor = matrixValues[Matrix.MSCALE_X] / startValues[Matrix.MSCALE_X];
+                    }
+
+                    setImageMatrix(matrix);
+
+                    last.set(focusx, focusy);
                 }
 
-                if (zoomable) {
-                    matrix.postScale(scaleBy, scaleBy, focusx, focusy);
+                if (event.getActionMasked() == MotionEvent.ACTION_UP) {
+                    scaleBy = 1f;
+                    resetImage();
                 }
-
-                setImageMatrix(matrix);
-
-                last.set(focusx, focusy);
-            }
-
-            if (event.getActionMasked() == MotionEvent.ACTION_UP) {
-                scaleBy = 1f;
-                resetImage();
             }
 
             //this tracks whether they have changed the number of fingers down
@@ -481,15 +562,27 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
      * Animate the matrix back to its original position after the user stopped interacting with it.
      */
     private void animateToStartMatrix() {
+        animateScaleAndTranslationToMatrix(startMatrix, RESET_DURATION);
+    }
+
+    /**
+     * Animate the scale and translation of the current matrix to the target
+     * matrix.
+     * @param targetMatrix the target matrix to animate values to
+     */
+    private void animateScaleAndTranslationToMatrix(final Matrix targetMatrix, final int duration) {
+
+        final float[] targetValues = new float[9];
+        targetMatrix.getValues(targetValues);
 
         final Matrix beginMatrix = new Matrix(getImageMatrix());
         beginMatrix.getValues(matrixValues);
 
         //difference in current and original values
-        final float xsdiff = startValues[Matrix.MSCALE_X] - matrixValues[Matrix.MSCALE_X];
-        final float ysdiff = startValues[Matrix.MSCALE_Y] - matrixValues[Matrix.MSCALE_Y];
-        final float xtdiff = startValues[Matrix.MTRANS_X] - matrixValues[Matrix.MTRANS_X];
-        final float ytdiff = startValues[Matrix.MTRANS_Y] - matrixValues[Matrix.MTRANS_Y];
+        final float xsdiff = targetValues[Matrix.MSCALE_X] - matrixValues[Matrix.MSCALE_X];
+        final float ysdiff = targetValues[Matrix.MSCALE_Y] - matrixValues[Matrix.MSCALE_Y];
+        final float xtdiff = targetValues[Matrix.MTRANS_X] - matrixValues[Matrix.MTRANS_X];
+        final float ytdiff = targetValues[Matrix.MTRANS_Y] - matrixValues[Matrix.MTRANS_Y];
 
         ValueAnimator anim = ValueAnimator.ofFloat(0, 1f);
         anim.addUpdateListener(new AnimatorUpdateListener() {
@@ -510,7 +603,15 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
                 setImageMatrix(activeMatrix);
             }
         });
-        anim.setDuration(RESET_DURATION);
+
+        anim.addListener(new SimpleAnimatorListener(){
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                setImageMatrix(targetMatrix);
+            }
+        });
+
+        anim.setDuration(duration);
         anim.start();
     }
 
@@ -716,5 +817,47 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
     @Override
     public void onScaleEnd(ScaleGestureDetector detector) {
         scaleBy = 1f;
+    }
+
+    private final GestureDetector.OnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener(){
+        @Override
+        public boolean onDoubleTapEvent(MotionEvent e) {
+            if (e.getAction() == MotionEvent.ACTION_UP) {
+                doubleTapDetected = true;
+            }
+
+            return false;
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            singleTapDetected = true;
+            return false;
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            singleTapDetected = false;
+            return false;
+        }
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
+    };
+
+    private class SimpleAnimatorListener implements Animator.AnimatorListener {
+        @Override
+        public void onAnimationStart(Animator animation) {}
+
+        @Override
+        public void onAnimationEnd(Animator animation) {}
+
+        @Override
+        public void onAnimationCancel(Animator animation) {}
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {}
     }
 }
