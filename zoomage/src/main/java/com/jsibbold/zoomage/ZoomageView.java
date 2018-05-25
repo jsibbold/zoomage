@@ -44,8 +44,8 @@ import android.widget.ImageView;
  */
 public class ZoomageView extends AppCompatImageView implements OnScaleGestureListener {
 
-    private final float MIN_SCALE = 0.6f;
-    private final float MAX_SCALE = 8f;
+    private static final float MIN_SCALE = 0.6f;
+    private static final float MAX_SCALE = 8f;
     private final int RESET_DURATION = 200;
 
     private ScaleType startScaleType;
@@ -140,6 +140,10 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
         if (doubleTapToZoomScaleFactor > maxScale) {
             doubleTapToZoomScaleFactor = maxScale;
+        }
+
+        if (doubleTapToZoomScaleFactor < minScale) {
+            doubleTapToZoomScaleFactor = minScale;
         }
     }
 
@@ -264,6 +268,39 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
      */
     public void setAutoCenter(final boolean autoCenter) {
         this.autoCenter = autoCenter;
+    }
+
+    /**
+     * Gets double tap to zoom state.
+     * @return whether double tap to zoom is enabled
+     */
+    public boolean getDoubleTapToZoom() {
+        return doubleTapToZoom;
+    }
+
+    /**
+     * Sets double tap to zoom state.
+     * @param doubleTapToZoom true if double tap to zoom should be enabled
+     */
+    public void setDoubleTapToZoom(boolean doubleTapToZoom) {
+        this.doubleTapToZoom = doubleTapToZoom;
+    }
+
+    /**
+     * Gets the double tap to zoom scale factor.
+     * @return double tap to zoom scale factor
+     */
+    public float getDoubleTapToZoomScaleFactor() {
+        return doubleTapToZoomScaleFactor;
+    }
+
+    /**
+     * Sets the double tap to zoom scale factor. Can be a maximum of max scale.
+     * @param doubleTapToZoomScaleFactor the scale factor you want to zoom to when double tap occurs
+     */
+    public void setDoubleTapToZoomScaleFactor(float doubleTapToZoomScaleFactor) {
+        this.doubleTapToZoomScaleFactor = doubleTapToZoomScaleFactor;
+        verifyScaleRange();
     }
 
     /**
