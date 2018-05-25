@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.jsibbold:zoomage:1.1.0-SNAPSHOT'
+    compile 'com.jsibbold:zoomage:1.2.0-SNAPSHOT'
 }
 ```
 
@@ -105,6 +105,16 @@ Sets whether zooming is allowed. Default value is true.
 zoomage_translatable="true|false"
 ```
 Sets whether translation is allowed. Default value is true.
+
+```xml
+zoomage_doubleTapToZoom="true|false"
+```
+Sets whether double tap to zoom functionality is enabled. Default is true.
+
+```xml
+zoomage_doubleTapToZoomScaleFactor
+```
+Sets the scale factor for double tap to zoom functionality. Default is 3.
 
 ---
 **Special thanks to <a href="https://github.com/mchowning">@mchowning</a> for all his help**
