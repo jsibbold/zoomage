@@ -61,58 +61,58 @@ the most sense to use, fitCenter being Android's default scale type.
 
 ## XML Attributes
 
-```xml
+```
 zoomage_restrictBounds="true|false"
 ```
 Restricts the bounds of the image so it does not wander outside the border of the ImageView when it's smaller than the frame size,
 and restricts the bounds to stop at the edges of the ImageView when the image is larger than the frame size. Default value is false.
 
-```xml
+```
 zoomage_animateOnReset="true|false"
 ```
 Image will animate back to its starting size whenever it is reset if true, and will snap back to its starting size when false.
 Default value is true.
 
-```xml
+```
 zoomage_autoResetMode="UNDER|OVER|ALWAYS|NEVER"
 ```
 Determines at what times the image will reset to its starting size. Note that UNDER, OVER, and ALWAYS all have the effect of
 resetting the image to its starting position if its size has not changed. Default value is UNDER.
 
-```xml
+```
 zoomage_autoCenter="true|false"
 ```
 This will cause the image to pull itself into view on-screen if it is partially off-screen. Default value is true.
 
-```xml
+```
 zoomage_minScale="{float greater than 0}"
 ```
 The minimum allowed scale for the image. Ideally this should be less than 1, must be greater than 0, and must
 be less than maxScale. Default value is 0.6.
 
-```xml
+```
 zoomage_maxScale="{float greater than 0}"
 ```
 The maximum allowed scale for the image. Ideally this should be greater than 1, must be greater than 0, and must
 be greater than minScale. Default value is 8.
 
-```xml
+```
 zoomage_zoomable="true|false"
 ```
 Sets whether zooming is allowed. Default value is true.
 
-```xml
+```
 zoomage_translatable="true|false"
 ```
 Sets whether translation is allowed. Default value is true.
 
-```xml
+```
 zoomage_doubleTapToZoom="true|false"
 ```
 Sets whether double tap to zoom functionality is enabled. Default is true.
 
-```xml
-zoomage_doubleTapToZoomScaleFactor
+```
+zoomage_doubleTapToZoomScaleFactor="{float within bounds of min and max scale}"
 ```
 Sets the scale factor for double tap to zoom functionality. Default is 3.
 
