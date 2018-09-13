@@ -7,3 +7,7 @@
 - Remove double-tap zoom functionality
 - Added zoomage_ prefix to xml variables to avoid potential conflicts
 - Some few minor fixes and cleanup
+
+## 1.2.0 (2018-09-13)
+- Add new double tap to zoom
+- Fix some minor issues
