@@ -1,5 +1,6 @@
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
 
 
 version = libraryVersion
@@ -15,7 +16,7 @@ android.libraryVariants.all { variant ->
         description "Generates Javadoc for $variant.name."
         source = variant.javaCompile.source
         ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
-        classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
+        doFirst { classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar) }
         options.links("http://docs.oracle.com/javase/7/docs/api/");
         options.linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference");
         exclude '**/BuildConfig.java'
@@ -59,6 +60,7 @@ bintray {
             project.property(bintrayKeyParameterName) : System.getenv(bintrayKeyEnvVarName)
 
     configurations = ['archives']
+    publications = ['Zoomage']
     pkg {
         repo = bintrayRepo
         name = bintrayName
@@ -67,12 +69,6 @@ bintray {
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ['Apache-2.0']
-        labels = libraryLabels
-        publish = true
-        publicDownloadNumbers = true
-        version {
-            desc = libraryDescription
-        }
     }
 }
 

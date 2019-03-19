@@ -24,35 +24,35 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content">
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/zoomable"
         android:text="Zoomable"
         android:padding="5dp"
         app:switchPadding="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/translatable"
         android:text="Translatable"
         android:padding="5dp"
         app:switchPadding="5dp"
         android:layout_width="wrap_content"
         android:layout_height="48dp"/>
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/restrictBounds"
         android:text="Restrict Bounds"
         android:padding="5dp"
         app:switchPadding="5dp"
         android:layout_width="wrap_content"
         android:layout_height="48dp"/>
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/animateOnReset"
         android:text="Animate On Reset"
         android:padding="5dp"
         app:switchPadding="5dp"
         android:layout_width="wrap_content"
         android:layout_height="48dp"/>
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/autoCenter"
         android:text="Auto Center"
         android:padding="5dp"
