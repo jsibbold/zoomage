@@ -43,7 +43,7 @@ task clean(type: Delete) {
 }
 
 ext {
-    supportVersion = '1.0.0-beta01'
+    supportVersion = '1.0.2'
     compileVersion = 28
     targetVersion = 28
 }
