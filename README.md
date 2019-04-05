@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.jsibbold:zoomage:1.2.0-SNAPSHOT'
+    compile 'com.jsibbold:zoomage:1.3.0-SNAPSHOT'
 }
 ```
 
