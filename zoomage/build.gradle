@@ -1,11 +1,8 @@
 apply plugin: 'com.android.library'
 
-version '1.2.0'
-group 'com.jsibbold'
 
 android {
     compileSdkVersion rootProject.ext.compileVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion 16
@@ -29,23 +26,22 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "androidx.appcompat:appcompat:$rootProject.ext.supportVersion"
+
     testImplementation 'junit:junit:4.12'
-    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportVersion"
 }
 
 ext {
+    currentVersion = '1.3.0-SNAPSHOT'
+    mavenGroupId = 'com.jsibbold'
+    mavenArtifactId = 'zoomage'
+
     bintrayRepo = 'maven'
     bintrayName = 'zoomage'
 
-    publishedGroupId = group
-
-    artifact = name
-
     libraryName = 'Zoomage'
     libraryDescription = 'A simple pinch-to-zoom ImageView for Android with a smooth and natural feel.'
-    libraryVersion = version
     libraryIssueTrackerUrl = 'https://github.com/jsibbold/zoomage/issues'
-    libraryLabels = ['android', 'update']
 
     licenseName = 'Apache License Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.html'
@@ -56,7 +52,8 @@ ext {
     developerId = 'jsibbold'
     developerName = 'Jeffrey Sibbold'
     developerEmail = 'jsibbold@gmail.com'
+
+    artifactFileName = 'zoomage-release.aar'
 }
 
-apply from:'../maven_install.gradle'
-apply from:'../bintray_publish.gradle'
+apply from:"../gradle/publishing.gradle"

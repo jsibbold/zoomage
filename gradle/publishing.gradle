@@ -1,0 +1,133 @@
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
+
+publishing {
+    publications {
+        Zoomage(MavenPublication) {
+            groupId = mavenGroupId
+            artifactId = mavenArtifactId
+            version = currentVersion
+
+            artifact("$buildDir/outputs/aar/$artifactFileName")
+            artifact androidJavadocJar
+            artifact androidSourcesJar
+
+            pom {
+                name = libraryName
+                description = libraryDescription
+                url = siteUrl
+                packaging "aar"
+
+                licenses {
+                    license {
+                        name = licenseName
+                        url = licenseUrl
+                    }
+                }
+
+                scm {
+                    url = gitUrl
+                }
+            }
+
+            pom.withXml {
+                def dependenciesNode = asNode().getAt('dependencies')[0] ?: asNode().appendNode('dependencies')
+                // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
+                configurations.implementation.allDependencies.each {
+                    // Ensure dependencies such as fileTree are not included.
+                    if (it.name != 'unspecified') {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
+                }
+            }
+        }
+    }
+}
+
+artifactory {
+    def artifactoryUrlProperty = 'artifactory_contextUrl'
+    def artifactoryUrl = project.hasProperty(artifactoryUrlProperty) ?
+            project.property(artifactoryUrlProperty) : ''
+
+
+    def artifactoryUserProperty = 'artifactory_user'
+    def artifactoryUserName = project.hasProperty(artifactoryUserProperty) ?
+            project.property(artifactoryUserProperty) : ''
+
+
+    def artifactoryPasswordProperty = 'artifactory_password'
+    def artifactoryPassword = project.hasProperty(artifactoryPasswordProperty) ?
+            project.property(artifactoryPasswordProperty) : ''
+
+    contextUrl = artifactoryUrl
+
+    publish {
+        repository {
+            repoKey = "oss-snapshot-local"
+            username = artifactoryUserName
+            password = artifactoryPassword
+        }
+
+        defaults {
+            publishArtifacts = true
+            publications (publishing.publications.Zoomage)
+            properties = ['build.status': "$it.project.status".toString()]
+            publishPom = true //Publish generated POM files to Artifactory (true by default)
+            publishIvy = false //Publish generated Ivy descriptor files to Artifactory (true by default)
+        }
+    }
+}
+
+bintray {
+    // command-line deployment
+    def bintrayUserParameterName = 'bintrayUser'
+    def bintrayKeyParameterName = 'bintrayKey'
+
+    // CI deployment
+    def bintrayUserEnvVarName = 'BINTRAY_USER'
+    def bintrayKeyEnvVarName = 'BINTRAY_KEY'
+
+    user = project.hasProperty(bintrayUserParameterName) ?
+            project.property(bintrayUserParameterName) : System.getenv(bintrayUserEnvVarName)
+
+    key = project.hasProperty(bintrayKeyParameterName) ?
+            project.property(bintrayKeyParameterName) : System.getenv(bintrayKeyEnvVarName)
+
+    publications = ['Zoomage']
+
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        desc = libraryDescription
+        issueTrackerUrl = libraryIssueTrackerUrl
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ['Apache-2.0']
+    }
+}
+
+afterEvaluate { project ->
+    task androidJavadoc(type: Javadoc) {
+        source = android.sourceSets.main.java.source
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        android.libraryVariants.all {variant ->
+            if (variant.name == "release") {
+                classpath += files(variant.getJavaCompileProvider().get().classpath.files)
+            }
+        }
+    }
+
+    task androidJavadocJar(type: Jar, dependsOn: androidJavadoc) {
+        classifier = 'javadoc'
+        from androidJavadoc.destinationDir
+    }
+
+    task androidSourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.source
+    }
+}
