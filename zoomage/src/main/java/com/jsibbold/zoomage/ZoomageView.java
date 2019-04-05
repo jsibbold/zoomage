@@ -1,12 +1,12 @@
 /**
  * Copyright 2016 Jeffrey Sibbold
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,15 +26,16 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import androidx.annotation.Nullable;
-import androidx.core.view.ScaleGestureDetectorCompat;
-import androidx.appcompat.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.OnScaleGestureListener;
 import android.widget.ImageView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.view.ScaleGestureDetectorCompat;
 
 /**
  * ZoomageView is a pinch-to-zoom extension of {@link ImageView}, providing a smooth
@@ -454,10 +455,10 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
                     animateScaleAndTranslationToMatrix(zoomMatrix, RESET_DURATION);
                 }
                 return true;
-            } else if (!singleTapDetected){
+            } else if (!singleTapDetected) {
                 /* if the event is a down touch, or if the number of touch points changed,
-                * we should reset our start point, as event origins have likely shifted to a
-                * different part of the screen*/
+                 * we should reset our start point, as event origins have likely shifted to a
+                 * different part of the screen*/
                 if (event.getActionMasked() == MotionEvent.ACTION_DOWN ||
                         event.getPointerCount() != previousPointerCount) {
                     last.set(scaleDetector.getFocusX(), scaleDetector.getFocusY());
@@ -496,6 +497,24 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
         }
 
         return super.onTouchEvent(event);
+    }
+
+    /**
+     * Get the unscaled location on the image where the last touch event occurred.
+     * Note that for a zoom, this will be the focus, ie. the halfway point between
+     * pinch pointers.
+     * @return {@link PointF} of location, or one with -1, -1 if outside bounds of image.
+     */
+    public PointF getUnscaledImageTouchPoint() {
+        final float touchx = (last.x - matrixValues[Matrix.MTRANS_X]) / matrixValues[Matrix.MSCALE_X];
+        final float touchy = (last.y - matrixValues[Matrix.MTRANS_Y]) / matrixValues[Matrix.MSCALE_Y];
+
+        if (touchx >= 0 && touchx <= getDrawable().getIntrinsicWidth()
+                && touchy >= 0 && touchy <= getDrawable().getIntrinsicHeight()) {
+            return new PointF(touchx, touchy);
+        } else {
+            return new PointF(-1f, -1f);
+        }
     }
 
     /**
@@ -552,8 +571,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
     public void reset(final boolean animate) {
         if (animate) {
             animateToStartMatrix();
-        }
-        else {
+        } else {
             setImageMatrix(startMatrix);
         }
     }
@@ -604,7 +622,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
             }
         });
 
-        anim.addListener(new SimpleAnimatorListener(){
+        anim.addListener(new SimpleAnimatorListener() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 setImageMatrix(targetMatrix);
@@ -697,8 +715,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
         //prevents image from translating an infinite distance offscreen
         if (bounds.right + xdistance < 0) {
             xdistance = -bounds.right;
-        }
-        else if (bounds.left + xdistance > getWidth()) {
+        } else if (bounds.left + xdistance > getWidth()) {
             xdistance = getWidth() - bounds.left;
         }
 
@@ -752,8 +769,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
         //prevents image from translating an infinite distance offscreen
         if (bounds.bottom + ydistance < 0) {
             ydistance = -bounds.bottom;
-        }
-        else if (bounds.top + ydistance > getHeight()) {
+        } else if (bounds.top + ydistance > getHeight()) {
             ydistance = getHeight() - bounds.top;
         }
 
@@ -819,7 +835,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
         scaleBy = 1f;
     }
 
-    private final GestureDetector.OnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener(){
+    private final GestureDetector.OnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onDoubleTapEvent(MotionEvent e) {
             if (e.getAction() == MotionEvent.ACTION_UP) {
@@ -849,15 +865,19 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
     private class SimpleAnimatorListener implements Animator.AnimatorListener {
         @Override
-        public void onAnimationStart(Animator animation) {}
+        public void onAnimationStart(Animator animation) {
+        }
 
         @Override
-        public void onAnimationEnd(Animator animation) {}
+        public void onAnimationEnd(Animator animation) {
+        }
 
         @Override
-        public void onAnimationCancel(Animator animation) {}
+        public void onAnimationCancel(Animator animation) {
+        }
 
         @Override
-        public void onAnimationRepeat(Animator animation) {}
+        public void onAnimationRepeat(Animator animation) {
+        }
     }
 }
