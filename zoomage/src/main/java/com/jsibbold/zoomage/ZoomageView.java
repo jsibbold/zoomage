@@ -26,15 +26,16 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import androidx.annotation.Nullable;
-import androidx.core.view.ScaleGestureDetectorCompat;
-import androidx.appcompat.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.OnScaleGestureListener;
 import android.widget.ImageView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.view.ScaleGestureDetectorCompat;
 
 /**
  * ZoomageView is a pinch-to-zoom extension of {@link ImageView}, providing a smooth
@@ -152,6 +153,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
      * Set the minimum and maximum allowed scale for zooming. {@code minScale} cannot
      * be greater than {@code maxScale} and neither can be 0 or less. This will result
      * in an {@link IllegalStateException}.
+     *
      * @param minScale minimum allowed scale
      * @param maxScale maximum allowed scale
      */
@@ -166,6 +168,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
     /**
      * Returns whether the image is translatable.
+     *
      * @return true if translation of image is allowed, false otherwise
      */
     public boolean isTranslatable() {
@@ -174,6 +177,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
     /**
      * Set the image's translatable state.
+     *
      * @param translatable true to enable translation, false to disable it
      */
     public void setTranslatable(boolean translatable) {
@@ -182,6 +186,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
     /**
      * Returns the zoomable state of the image.
+     *
      * @return true if pinch-zooming of the image is allowed, false otherwise.
      */
     public boolean isZoomable() {
@@ -190,6 +195,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
     /**
      * Set the zoomable state of the image.
+     *
      * @param zoomable true to enable pinch-zooming of the image, false to disable it
      */
     public void setZoomable(final boolean zoomable) {
@@ -200,6 +206,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
      * If restricted bounds are enabled, the image will not be allowed to translate
      * farther inward than the edges of the view's bounds, unless the corresponding
      * dimension (width or height) is smaller than those of the view's frame.
+     *
      * @return true if image bounds are restricted to the view's edges, false otherwise
      */
     public boolean getRestrictBounds() {
@@ -211,6 +218,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
      * If restricted bounds are enabled, the image will not be allowed to translate
      * farther inward than the edges of the view's bounds, unless the corresponding
      * dimension (width or height) is smaller than those of the view's frame.
+     *
      * @param restrictBounds true if image bounds should be restricted to the view's edges, false otherwise
      */
     public void setRestrictBounds(final boolean restrictBounds) {
@@ -220,6 +228,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
     /**
      * Returns status of animateOnReset. This causes the image to smoothly animate back
      * to its start position when reset. Default value is true.
+     *
      * @return true if animateOnReset is enabled, false otherwise
      */
     public boolean getAnimateOnReset() {
@@ -228,6 +237,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
     /**
      * Set whether or not the image should animate when resetting.
+     *
      * @param animateOnReset true if image should animate when resetting, false to snap
      */
     public void setAnimateOnReset(final boolean animateOnReset) {
@@ -236,6 +246,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
     /**
      * Get the current {@link AutoResetMode} mode of the image. Default value is {@link AutoResetMode#UNDER}.
+     *
      * @return the current {@link AutoResetMode} mode, one of {@link AutoResetMode#OVER OVER}, {@link AutoResetMode#UNDER UNDER},
      * {@link AutoResetMode#ALWAYS ALWAYS}, or {@link AutoResetMode#NEVER NEVER}
      */
@@ -246,8 +257,9 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
     /**
      * Set the {@link AutoResetMode} mode for the image.
+     *
      * @param autoReset the desired mode, one of {@link AutoResetMode#OVER OVER}, {@link AutoResetMode#UNDER UNDER},
-     * {@link AutoResetMode#ALWAYS ALWAYS}, or {@link AutoResetMode#NEVER NEVER}
+     *                  {@link AutoResetMode#ALWAYS ALWAYS}, or {@link AutoResetMode#NEVER NEVER}
      */
     public void setAutoResetMode(@AutoResetMode final int autoReset) {
         this.autoResetMode = autoReset;
@@ -256,6 +268,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
     /**
      * Whether or not the image should automatically center itself when it's dragged partially or
      * fully out of view.
+     *
      * @return true if image should center itself automatically, false if it should not
      */
     public boolean getAutoCenter() {
@@ -265,6 +278,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
     /**
      * Set whether or not the image should automatically center itself when it's dragged
      * partially or fully out of view.
+     *
      * @param autoCenter true if image should center itself automatically, false if it should not
      */
     public void setAutoCenter(final boolean autoCenter) {
@@ -273,6 +287,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
     /**
      * Gets double tap to zoom state.
+     *
      * @return whether double tap to zoom is enabled
      */
     public boolean getDoubleTapToZoom() {
@@ -281,6 +296,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
     /**
      * Sets double tap to zoom state.
+     *
      * @param doubleTapToZoom true if double tap to zoom should be enabled
      */
     public void setDoubleTapToZoom(boolean doubleTapToZoom) {
@@ -289,6 +305,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
     /**
      * Gets the double tap to zoom scale factor.
+     *
      * @return double tap to zoom scale factor
      */
     public float getDoubleTapToZoomScaleFactor() {
@@ -297,6 +314,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
     /**
      * Sets the double tap to zoom scale factor. Can be a maximum of max scale.
+     *
      * @param doubleTapToZoomScaleFactor the scale factor you want to zoom to when double tap occurs
      */
     public void setDoubleTapToZoomScaleFactor(float doubleTapToZoomScaleFactor) {
@@ -306,6 +324,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
     /**
      * Get the current scale factor of the image, in relation to its starting size.
+     *
      * @return the current scale factor
      */
     public float getCurrentScaleFactor() {
@@ -327,6 +346,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
     /**
      * Set enabled state of the view. Note that this will reset the image's
      * {@link android.widget.ImageView.ScaleType} to its pre-zoom state.
+     *
      * @param enabled enabled state
      */
     @Override
@@ -454,10 +474,10 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
                     animateScaleAndTranslationToMatrix(zoomMatrix, RESET_DURATION);
                 }
                 return true;
-            } else if (!singleTapDetected){
+            } else if (!singleTapDetected) {
                 /* if the event is a down touch, or if the number of touch points changed,
-                * we should reset our start point, as event origins have likely shifted to a
-                * different part of the screen*/
+                 * we should reset our start point, as event origins have likely shifted to a
+                 * different part of the screen*/
                 if (event.getActionMasked() == MotionEvent.ACTION_DOWN ||
                         event.getPointerCount() != previousPointerCount) {
                     last.set(scaleDetector.getFocusX(), scaleDetector.getFocusY());
@@ -491,6 +511,8 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
             //this tracks whether they have changed the number of fingers down
             previousPointerCount = event.getPointerCount();
+
+            getParent().requestDisallowInterceptTouchEvent(true);
 
             return true;
         }
@@ -547,13 +569,13 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
     /**
      * Reset image back to its starting size. If {@code animate} is false, image
      * will snap back to its original size.
+     *
      * @param animate animate the image back to its starting size
      */
     public void reset(final boolean animate) {
         if (animate) {
             animateToStartMatrix();
-        }
-        else {
+        } else {
             setImageMatrix(startMatrix);
         }
     }
@@ -568,6 +590,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
     /**
      * Animate the scale and translation of the current matrix to the target
      * matrix.
+     *
      * @param targetMatrix the target matrix to animate values to
      */
     private void animateScaleAndTranslationToMatrix(final Matrix targetMatrix, final int duration) {
@@ -604,7 +627,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
             }
         });
 
-        anim.addListener(new SimpleAnimatorListener(){
+        anim.addListener(new SimpleAnimatorListener() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 setImageMatrix(targetMatrix);
@@ -697,8 +720,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
         //prevents image from translating an infinite distance offscreen
         if (bounds.right + xdistance < 0) {
             xdistance = -bounds.right;
-        }
-        else if (bounds.left + xdistance > getWidth()) {
+        } else if (bounds.left + xdistance > getWidth()) {
             xdistance = getWidth() - bounds.left;
         }
 
@@ -711,6 +733,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
      * image is smaller than the bounds, keep it within the current bounds.
      * If it is larger, prevent its edges from translating farther inward
      * from the outer edge.
+     *
      * @param xdistance the current desired horizontal distance to translate
      * @return the actual horizontal distance to translate with bounds restrictions
      */
@@ -752,8 +775,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
         //prevents image from translating an infinite distance offscreen
         if (bounds.bottom + ydistance < 0) {
             ydistance = -bounds.bottom;
-        }
-        else if (bounds.top + ydistance > getHeight()) {
+        } else if (bounds.top + ydistance > getHeight()) {
             ydistance = getHeight() - bounds.top;
         }
 
@@ -766,6 +788,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
      * image is smaller than the bounds, keep it within the current bounds.
      * If it is larger, prevent its edges from translating farther inward
      * from the outer edge.
+     *
      * @param ydistance the current desired vertical distance to translate
      * @return the actual vertical distance to translate with bounds restrictions
      */
@@ -819,7 +842,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
         scaleBy = 1f;
     }
 
-    private final GestureDetector.OnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener(){
+    private final GestureDetector.OnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onDoubleTapEvent(MotionEvent e) {
             if (e.getAction() == MotionEvent.ACTION_UP) {
@@ -849,15 +872,19 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
     private class SimpleAnimatorListener implements Animator.AnimatorListener {
         @Override
-        public void onAnimationStart(Animator animation) {}
+        public void onAnimationStart(Animator animation) {
+        }
 
         @Override
-        public void onAnimationEnd(Animator animation) {}
+        public void onAnimationEnd(Animator animation) {
+        }
 
         @Override
-        public void onAnimationCancel(Animator animation) {}
+        public void onAnimationCancel(Animator animation) {
+        }
 
         @Override
-        public void onAnimationRepeat(Animator animation) {}
+        public void onAnimationRepeat(Animator animation) {
+        }
     }
 }
