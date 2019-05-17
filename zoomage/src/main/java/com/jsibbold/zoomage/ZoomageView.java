@@ -81,6 +81,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
     private float scaleBy = 1f;
     private float currentScaleFactor = 1f;
     private int previousPointerCount = 1;
+    private int currentPointerCount = 0;
 
     private ScaleGestureDetector scaleDetector;
 
@@ -455,6 +456,8 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
                 setStartValues();
             }
 
+            currentPointerCount = event.getPointerCount();
+
             //get the current state of the image matrix, its values, and the bounds of the drawn bitmap
             matrix.set(getImageMatrix());
             matrix.getValues(matrixValues);
@@ -479,7 +482,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
                  * we should reset our start point, as event origins have likely shifted to a
                  * different part of the screen*/
                 if (event.getActionMasked() == MotionEvent.ACTION_DOWN ||
-                        event.getPointerCount() != previousPointerCount) {
+                        currentPointerCount != previousPointerCount) {
                     last.set(scaleDetector.getFocusX(), scaleDetector.getFocusY());
                 } else if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
 
@@ -509,11 +512,12 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
                 }
             }
 
-            //this tracks whether they have changed the number of fingers down
-            previousPointerCount = event.getPointerCount();
+            getParent().requestDisallowInterceptTouchEvent((translatable && currentPointerCount > 0)
+                    || (zoomable && currentPointerCount > 1));
 
-            getParent().requestDisallowInterceptTouchEvent((translatable && previousPointerCount > 0)
-                    || (zoomable && previousPointerCount > 1));
+            //this tracks whether they have changed the number of fingers down
+            previousPointerCount = currentPointerCount;
+
 
             return true;
         }
