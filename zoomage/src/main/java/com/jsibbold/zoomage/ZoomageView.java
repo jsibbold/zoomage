@@ -512,7 +512,8 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
             //this tracks whether they have changed the number of fingers down
             previousPointerCount = event.getPointerCount();
 
-            getParent().requestDisallowInterceptTouchEvent(true);
+            getParent().requestDisallowInterceptTouchEvent((translatable && previousPointerCount > 0)
+                    || (zoomable && previousPointerCount > 1));
 
             return true;
         }
