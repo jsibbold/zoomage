@@ -7,7 +7,6 @@ publishing {
         Zoomage(MavenPublication) {
             groupId = mavenGroupId
             artifactId = mavenArtifactId
-            version = currentVersion
 
             artifact("$buildDir/outputs/aar/$artifactFileName")
             artifact androidJavadocJar
