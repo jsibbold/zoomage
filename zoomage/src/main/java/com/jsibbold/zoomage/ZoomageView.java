@@ -88,6 +88,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
     private GestureDetector gestureDetector;
     private boolean doubleTapDetected = false;
     private boolean singleTapDetected = false;
+    private OnScaleChangeListener onScaleChangeListener;
 
     public ZoomageView(Context context) {
         super(context);
@@ -499,6 +500,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
                     if (zoomable) {
                         matrix.postScale(scaleBy, scaleBy, focusx, focusy);
                         currentScaleFactor = matrixValues[Matrix.MSCALE_X] / startValues[Matrix.MSCALE_X];
+                        notifyScaleChangeListener(currentScaleFactor);
                     }
 
                     setImageMatrix(matrix);
@@ -636,6 +638,10 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
             @Override
             public void onAnimationEnd(Animator animation) {
                 setImageMatrix(targetMatrix);
+                if (currentScaleFactor < 1F) {
+                    currentScaleFactor = 1F;
+                }
+                notifyScaleChangeListener(currentScaleFactor);
             }
         });
 
@@ -845,6 +851,20 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
     @Override
     public void onScaleEnd(ScaleGestureDetector detector) {
         scaleBy = 1f;
+    }
+
+    public OnScaleChangeListener getOnScaleChangeListener() {
+        return onScaleChangeListener;
+    }
+
+    public void setOnScaleChangeListener(OnScaleChangeListener onScaleChangeListener) {
+        this.onScaleChangeListener = onScaleChangeListener;
+    }
+
+    private void notifyScaleChangeListener(float newScale) {
+        if (onScaleChangeListener != null) {
+            onScaleChangeListener.onScaleChanged(newScale);
+        }
     }
 
     private final GestureDetector.OnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() {
