@@ -107,7 +107,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
     private void init(Context context, AttributeSet attrs) {
         scaleDetector = new ScaleGestureDetector(context, this);
-        gestureDetector = new GestureDetector(context, gestureListener);
+        gestureDetector = new GestureDetector(context, getOnGestureListener());
         ScaleGestureDetectorCompat.setQuickScaleEnabled(scaleDetector, false);
         startScaleType = getScaleType();
 
@@ -127,6 +127,10 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
         verifyScaleRange();
 
         values.recycle();
+    }
+
+    protected GestureDetector.OnGestureListener getOnGestureListener() {
+        return new OnGestureListener(this);
     }
 
     private void verifyScaleRange() {
@@ -867,33 +871,13 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
         }
     }
 
-    private final GestureDetector.OnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() {
-        @Override
-        public boolean onDoubleTapEvent(MotionEvent e) {
-            if (e.getAction() == MotionEvent.ACTION_UP) {
-                doubleTapDetected = true;
-            }
+    void setDoubleTapDetected(boolean detected) {
+        doubleTapDetected = detected;
+    }
 
-            return false;
-        }
-
-        @Override
-        public boolean onSingleTapUp(MotionEvent e) {
-            singleTapDetected = true;
-            return false;
-        }
-
-        @Override
-        public boolean onSingleTapConfirmed(MotionEvent e) {
-            singleTapDetected = false;
-            return false;
-        }
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return true;
-        }
-    };
+    void setSingleTapDetected(boolean detected) {
+        singleTapDetected = detected;
+    }
 
     private class SimpleAnimatorListener implements Animator.AnimatorListener {
         @Override
