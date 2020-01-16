@@ -11,7 +11,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:3.5.3'
         classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.13.1"
     }
 }
@@ -43,7 +43,7 @@ task clean(type: Delete) {
 }
 
 ext {
-    supportVersion = '1.0.2'
+    supportVersion = '1.1.0'
     compileVersion = 28
     targetVersion = 28
 }
