@@ -1,9 +1,13 @@
 # Zoomage Change Log
 
+## 1.3.1 (TBD)
+- Added more granular handling for disallowing parent touch interception
+- Gradle updates
+
 ## 1.3.0 (2019-07-12)
 - Updated to use AndroidX support libs
-- Gradle updates
 - Fix for zooming and translating not working correctly in most scrollable views
+- Gradle updates
 
 ## 1.2.0 (2018-09-13)
 - Add new double tap to zoom
