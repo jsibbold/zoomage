@@ -84,6 +84,7 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
     private int currentPointerCount = 0;
 
     private ScaleGestureDetector scaleDetector;
+    private ValueAnimator resetAnimator;
 
     private GestureDetector gestureDetector;
     private boolean doubleTapDetected = false;
@@ -489,14 +490,14 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
                     final float focusx = scaleDetector.getFocusX();
                     final float focusy = scaleDetector.getFocusY();
 
-                    if (translatable) {
+                    if (allowTranslate(event)) {
                         //calculate the distance for translation
                         float xdistance = getXDistance(focusx, last.x);
                         float ydistance = getYDistance(focusy, last.y);
                         matrix.postTranslate(xdistance, ydistance);
                     }
 
-                    if (zoomable) {
+                    if (allowZoom(event)) {
                         matrix.postScale(scaleBy, scaleBy, focusx, focusy);
                         currentScaleFactor = matrixValues[Matrix.MSCALE_X] / startValues[Matrix.MSCALE_X];
                     }
@@ -506,14 +507,14 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
                     last.set(focusx, focusy);
                 }
 
-                if (event.getActionMasked() == MotionEvent.ACTION_UP) {
+                if (event.getActionMasked() == MotionEvent.ACTION_UP ||
+                    event.getActionMasked() == MotionEvent.ACTION_CANCEL) {
                     scaleBy = 1f;
                     resetImage();
                 }
             }
 
-            getParent().requestDisallowInterceptTouchEvent((translatable && currentPointerCount > 0)
-                    || (zoomable && currentPointerCount > 1));
+            getParent().requestDisallowInterceptTouchEvent(disallowParentTouch(event));
 
             //this tracks whether they have changed the number of fingers down
             previousPointerCount = currentPointerCount;
@@ -523,6 +524,26 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
         }
 
         return super.onTouchEvent(event);
+    }
+
+    protected boolean disallowParentTouch(MotionEvent event) {
+        if ((currentPointerCount > 1 || currentScaleFactor > 1.0f || isAnimating())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected boolean allowTranslate(MotionEvent event) {
+        return translatable && currentScaleFactor > 1.0f;
+    }
+
+    protected boolean allowZoom(MotionEvent event) {
+        return zoomable;
+    }
+
+    private boolean isAnimating() {
+        return resetAnimator != null && resetAnimator.isRunning();
     }
 
     /**
@@ -612,8 +633,8 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
         final float xtdiff = targetValues[Matrix.MTRANS_X] - matrixValues[Matrix.MTRANS_X];
         final float ytdiff = targetValues[Matrix.MTRANS_Y] - matrixValues[Matrix.MTRANS_Y];
 
-        ValueAnimator anim = ValueAnimator.ofFloat(0, 1f);
-        anim.addUpdateListener(new AnimatorUpdateListener() {
+        resetAnimator = ValueAnimator.ofFloat(0, 1f);
+        resetAnimator.addUpdateListener(new AnimatorUpdateListener() {
 
             final Matrix activeMatrix = new Matrix(getImageMatrix());
             final float[] values = new float[9];
@@ -632,15 +653,15 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
             }
         });
 
-        anim.addListener(new SimpleAnimatorListener() {
+        resetAnimator.addListener(new SimpleAnimatorListener() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 setImageMatrix(targetMatrix);
             }
         });
 
-        anim.setDuration(duration);
-        anim.start();
+        resetAnimator.setDuration(duration);
+        resetAnimator.start();
     }
 
     private void animateTranslationX() {
