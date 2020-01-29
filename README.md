@@ -60,6 +60,7 @@ the most sense to use, fitCenter being Android's default scale type.
 ```
 
 If using a ZoomageView with a view pager, it is recommended that [ViewPager2](https://developer.android.com/jetpack/androidx/releases/viewpager2)
+is used.
 
 ## XML Attributes
 
