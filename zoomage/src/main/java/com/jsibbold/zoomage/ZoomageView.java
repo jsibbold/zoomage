@@ -875,6 +875,8 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
                 doubleTapDetected = true;
             }
 
+            singleTapDetected = false;
+
             return false;
         }
 
