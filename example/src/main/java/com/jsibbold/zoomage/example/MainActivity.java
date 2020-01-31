@@ -18,12 +18,13 @@ package com.jsibbold.zoomage.example;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.jsibbold.zoomage.ZoomageView;
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        demoView = (ZoomageView)findViewById(R.id.demoView);
+        demoView = findViewById(R.id.demoView);
         prepareOptions();
     }
 
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setSwitch(int id, boolean state) {
-        final SwitchCompat switchView = (SwitchCompat) optionsView.findViewById(id);
+        final SwitchCompat switchView = optionsView.findViewById(id);
         switchView.setOnCheckedChangeListener(this);
         switchView.setChecked(state);
     }

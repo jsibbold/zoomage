@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.jsibbold:zoomage:1.3.0-SNAPSHOT'
+    compile 'com.jsibbold:zoomage:1.3.1-SNAPSHOT'
 }
 ```
 
@@ -58,6 +58,9 @@ the most sense to use, fitCenter being Android's default scale type.
             />
     </RelativeLayout>
 ```
+
+If using a ZoomageView with a view pager, it is recommended that [ViewPager2](https://developer.android.com/jetpack/androidx/releases/viewpager2)
+is used.
 
 ## XML Attributes
 

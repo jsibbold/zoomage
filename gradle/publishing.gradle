@@ -2,44 +2,66 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'maven-publish'
 
-publishing {
-    publications {
-        Zoomage(MavenPublication) {
-            groupId = mavenGroupId
-            artifactId = mavenArtifactId
+afterEvaluate { project ->
+    task androidJavadoc(type: Javadoc) {
+        source = android.sourceSets.main.java.source
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        android.libraryVariants.all { variant ->
+            if (variant.name == "release") {
+                classpath += files(variant.getJavaCompileProvider().get().classpath.files)
+            }
+        }
+    }
 
-            artifact("$buildDir/outputs/aar/$artifactFileName")
-            artifact androidJavadocJar
-            artifact androidSourcesJar
+    task androidJavadocJar(type: Jar, dependsOn: androidJavadoc) {
+        classifier = 'javadoc'
+        from androidJavadoc.destinationDir
+    }
 
-            pom {
-                name = libraryName
-                description = libraryDescription
-                url = siteUrl
-                packaging "aar"
+    task androidSourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.source
+    }
 
-                licenses {
-                    license {
-                        name = licenseName
-                        url = licenseUrl
+    publishing {
+        publications {
+            Zoomage(MavenPublication) {
+                groupId = mavenGroupId
+                artifactId = mavenArtifactId
+
+                artifact("$buildDir/outputs/aar/$artifactFileName")
+                artifact androidJavadocJar
+                artifact androidSourcesJar
+
+                pom {
+                    name = libraryName
+                    description = libraryDescription
+                    url = siteUrl
+                    packaging "aar"
+
+                    licenses {
+                        license {
+                            name = licenseName
+                            url = licenseUrl
+                        }
+                    }
+
+                    scm {
+                        url = gitUrl
                     }
                 }
 
-                scm {
-                    url = gitUrl
-                }
-            }
-
-            pom.withXml {
-                def dependenciesNode = asNode().getAt('dependencies')[0] ?: asNode().appendNode('dependencies')
-                // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
-                configurations.implementation.allDependencies.each {
-                    // Ensure dependencies such as fileTree are not included.
-                    if (it.name != 'unspecified') {
-                        def dependencyNode = dependenciesNode.appendNode('dependency')
-                        dependencyNode.appendNode('groupId', it.group)
-                        dependencyNode.appendNode('artifactId', it.name)
-                        dependencyNode.appendNode('version', it.version)
+                pom.withXml {
+                    def dependenciesNode = asNode().getAt('dependencies')[0] ?: asNode().appendNode('dependencies')
+                    // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
+                    configurations.implementation.allDependencies.each {
+                        // Ensure dependencies such as fileTree are not included.
+                        if (it.name != 'unspecified') {
+                            def dependencyNode = dependenciesNode.appendNode('dependency')
+                            dependencyNode.appendNode('groupId', it.group)
+                            dependencyNode.appendNode('artifactId', it.name)
+                            dependencyNode.appendNode('version', it.version)
+                        }
                     }
                 }
             }
@@ -106,27 +128,5 @@ bintray {
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ['Apache-2.0']
-    }
-}
-
-afterEvaluate { project ->
-    task androidJavadoc(type: Javadoc) {
-        source = android.sourceSets.main.java.source
-        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-        android.libraryVariants.all {variant ->
-            if (variant.name == "release") {
-                classpath += files(variant.getJavaCompileProvider().get().classpath.files)
-            }
-        }
-    }
-
-    task androidJavadocJar(type: Jar, dependsOn: androidJavadoc) {
-        classifier = 'javadoc'
-        from androidJavadoc.destinationDir
-    }
-
-    task androidSourcesJar(type: Jar) {
-        classifier = 'sources'
-        from android.sourceSets.main.java.source
     }
 }
