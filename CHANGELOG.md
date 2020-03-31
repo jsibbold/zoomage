@@ -1,6 +1,6 @@
 # Zoomage Change Log
 
-## 1.3.1 (TBD)
+## 1.3.1 (2020-03-27)
 - Added more granular handling for disallowing parent touch interception
 - Add protected methods for allowing zoom and translation
 - Added fix for gesture detection sometimes locking up interaction
