@@ -527,7 +527,8 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
     }
 
     protected boolean disallowParentTouch(MotionEvent event) {
-        if ((currentPointerCount > 1 || currentScaleFactor > 1.0f || isAnimating())) {
+        boolean isTranslatedToEdge = restrictBounds && isScrollToEdge();
+        if (currentPointerCount > 1 || (currentScaleFactor > 1.0f && !isTranslatedToEdge) || isAnimating()) {
             return true;
         } else {
             return false;
@@ -544,6 +545,11 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
 
     private boolean isAnimating() {
         return resetAnimator != null && resetAnimator.isRunning();
+    }
+
+    private boolean isScrollToEdge() {
+        return bounds.left == 0.0 || bounds.right == getWidth()
+                || bounds.top == 0.0 || bounds.bottom == getHeight();
     }
 
     /**
