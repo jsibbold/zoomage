@@ -21,7 +21,7 @@ public class OnGestureListener extends GestureDetector.SimpleOnGestureListener {
         if (view != null && e.getAction() == MotionEvent.ACTION_UP) {
             view.setDoubleTapDetected(true);
         }
-
+        notifySingleTapDetection(true);
         return false;
     }
 
