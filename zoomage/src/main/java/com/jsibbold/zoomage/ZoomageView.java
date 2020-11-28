@@ -90,6 +90,9 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
     private boolean doubleTapDetected = false;
     private boolean singleTapDetected = false;
 
+    //listener
+    private onZoomageViewDoubleClickListener doubleClickListener;
+
     public ZoomageView(Context context) {
         super(context);
         init(context, null);
@@ -387,6 +390,15 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
         setScaleType(startScaleType);
     }
 
+/**
+ * the zoomage double click listener
+ *
+ * @param      doubleClickListener  The double click listener
+ */
+    public void setOnDoubleClickListener(onZoomageViewDoubleClickListener doubleClickListener){
+        this.doubleClickListener = doubleClickListener;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -477,7 +489,16 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
                     zoomMatrix.postScale(doubleTapToZoomScaleFactor, doubleTapToZoomScaleFactor, scaleDetector.getFocusX(), scaleDetector.getFocusY());
                     animateScaleAndTranslationToMatrix(zoomMatrix, RESET_DURATION);
                 }
+                //notify onclick listeners
+                doubleClickListener.onDoubleClick(doubleTapToZoom);
+                //rest double Tap detected
+                doubleTapDetected = false;
                 return true;
+            }else if (!doubleTapToZoom && doubleTapDetected) {
+                //notify onclick listeners
+                doubleClickListener.onDoubleClick(doubleTapToZoom);
+                //rest double Tap detected
+                doubleTapDetected = false;
             } else if (!singleTapDetected) {
                 /* if the event is a down touch, or if the number of touch points changed,
                  * we should reset our start point, as event origins have likely shifted to a
@@ -914,5 +935,14 @@ public class ZoomageView extends AppCompatImageView implements OnScaleGestureLis
         @Override
         public void onAnimationRepeat(Animator animation) {
         }
+    }
+
+    public interface onZoomageViewDoubleClickListener{
+	    /**
+	     * Called on double click.
+	     *
+	     * @param      isDoubleTapToZoom  Indicates if double tap was made as zoom action
+	     */
+       public void onDoubleClick(boolean isDoubleTapToZoom);
     }
 }
