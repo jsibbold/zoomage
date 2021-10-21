@@ -9,22 +9,11 @@ on a smooth and natural feel.
 ## Gradle
 ```groovy
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
     implementation 'com.jsibbold:zoomage:1.3.1'
-}
-```
-
-### For the latest snapshot use
-```groovy
-repositories {
-    maven { url 'https://oss.jfrog.org/artifactory/oss-snapshot-local' }
-}
-
-dependencies {
-    implementation 'com.jsibbold:zoomage:1.3.1-SNAPSHOT'
 }
 ```
 
